@@ -11,10 +11,12 @@
 </head>
 
 <body>
+  <h1 id="note"></h1>
+  <input type="text" value="G5" placeholder="Piano Note Here!" id="noteInput"/>
   <input type="button" value="sound"
-    onclick="electricpiano.playNote('C5');electricpiano.playNote('E5');electricpiano.playNote('G5');electricpiano.playNote('B5');" />
+    onclick="electricpiano.playNote(noteInput);" />
   <input type="button" value="test2"
-    onclick="voice.playNote('C5');voice.playNote('C6');voice.playNote('C4');voice.playNote('E5');" />
+    onclick="voice.playNote(noteInput);" />
   <canvas id="output"></canvas>
 </body>
 

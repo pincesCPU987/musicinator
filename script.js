@@ -75,7 +75,15 @@ async function load() {
 // imma eat pasta brb 10-15 minutes
 load();
 
+const note = document.querySelector('#note');
+const input = document.querySelector('#noteInput');
 
+let noteInput;
+setInterval(() => {
+  noteInput = input.value;
+  note.innerText = noteInput;
+  return noteInput;
+}  , 1);
 
 /*
 var mousex = 0;
