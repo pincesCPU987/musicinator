@@ -34,6 +34,12 @@ input[type="button"]:hover {
 #toolbar {
   display: flex; /* Arrange buttons horizontally */
   margin-bottom: 10px;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  border-bottom-color: #ddd;
+  border-right-color: #ddd;
+  border-bottom-right-radius: 5px;
 }
 
 #toolbar button {
