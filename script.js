@@ -64,13 +64,13 @@ class Instrument {
 } // you figure it out imma et pasta now brb go eat you said that 4 times
 
 
-var voice = new Instrument(['../assets/voice/a3.wav', '../assets/voice/a4.wav', '../assets/voice/a5.wav']);
-var electricpiano = new Instrument(['../assets/electricpiano/a3.wav', '../assets/electricpiano/a4.wav', '../assets/electricpiano/a5.wav']);
+var voice = new Instrument(['./assets/voice/a3.wav', './assets/voice/a4.wav', './assets/voice/a5.wav']);
+var electricpiano = new Instrument(['./assets/electricpiano/a2.wav', './assets/electricpiano/a3.wav', './assets/electricpiano/a4.wav', './assets/electricpiano/a5.wav', './assets/electricpiano/a6.wav', './assets/electricpiano/a7.wav']);
 
 async function load() {
   await voice.load();
   await electricpiano.load();
-  console.log('loaded')
+  console.log('loaded');
 }
 // imma eat pasta brb 10-15 minutes
 load();
