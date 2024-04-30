@@ -1,0 +1,12 @@
+body {
+  background-color: #0D1117;
+  color: #ffffff;
+  font-family: 'PT Sans', sans-serif;
+}
+button {
+  background-color: #121D2F;
+  color: #428CED;
+  border-style: solid;
+  border-weight: 1px;
+  border-color: #161B22;
+}
