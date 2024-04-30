@@ -11,12 +11,19 @@
 </head>
 
 <body>
+  <div id="toolbar">
+    <input type="text" id="nameInput" placeholder="Enter Name" />
+    <button id="editButton">Edit</button>
+    <button id="selectButton">Select</button>
+    <button id="eraserButton">Eraser</button>
+    <button id="selectAllButton">Select All</button>
+    <button id="selectTypeButton">Select Type</button>
+    <button id="saveButton">Save</button>
+  </div>
   <h1 id="note"></h1>
-  <input type="text" value="G5" placeholder="Piano Note Here!" id="noteInput"/>
-  <input type="button" value="sound"
-    onclick="electricpiano.playNote(noteInput);" />
-  <input type="button" value="test2"
-    onclick="voice.playNote(noteInput);" />
+  <input type="text" value="G5" placeholder="Piano Note Here!" id="noteInput" />
+  <input type="button" value="sound" onclick="electricpiano.playNote(noteInput);" />
+  <input type="button" value="test2" onclick="voice.playNote(noteInput);" />
   <input type="button" value="test3"
     onclick="voice.playNote('C5');voice.playNote('E5');voice.playNote('G5');voice.playNote('B5');" />
   <input type="button" value="test3"

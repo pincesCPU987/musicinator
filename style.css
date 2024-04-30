@@ -1,7 +1,7 @@
 body {
   background-color: #222;
   color: #ddd;
-  font-family: 'PT Sans',sans-serif;
+  font-family: 'PT Sans', sans-serif;
   margin: 0;
   padding: 20px;
 }
@@ -28,4 +28,14 @@ input[type="button"]:hover {
 
 #output {
   border: 1px solid #ddd;
+}
+
+/* Toolbar styles */
+#toolbar {
+  display: flex; /* Arrange buttons horizontally */
+  margin-bottom: 10px;
+}
+
+#toolbar button {
+  margin-right: 5px; /* Add spacing between buttons */
 }
