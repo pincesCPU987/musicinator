@@ -2,6 +2,7 @@
 <html>
 
 <head>
+  <link rel="icon" href="assets/images/icon.png"> 
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width" />
   <title>Musicinator</title>
@@ -11,6 +12,7 @@
 </head>
 
 <body>
+  <div id="loading"><center><h1>loading...</h1></center></div>
   <div id="toolbar">
     <input type="text" id="nameInput" placeholder="Enter Name" />
     <button id="editButton">Edit</button>
@@ -29,10 +31,10 @@
     onclick="voice.playNote('C5');voice.playNote('E5');voice.playNote('G5');voice.playNote('B5');" />
   <input type="button" value="test3"
     onclick="voice.playNote('C3');voice.playNote('E3');voice.playNote('G3');voice.playNote('B3');" />
-  <canvas id="output"></canvas>
   <!--<input type="button" value="test"
     onclick="electricpiano.playNote(noteInput);voice.playNote(noteInput);voice.playNote('C5');voice.playNote('E5');voice.playNote('G5');voice.playNote('B5');voice.playNote('C3');voice.playNote('E3');voice.playNote('G3');voice.playNote('B3');" />-->
   </div>
+  <canvas id="output"></canvas>
 </body>
 
 </html>

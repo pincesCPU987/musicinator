@@ -107,4 +107,10 @@ document.addEventListener("keydown", function (event) {
     electricpiano.playNote('G3');
   }
 });
-//end test note updater
+
+//loading div
+const loadingScreen = document.querySelector('#loading');
+
+window.onload = function() {
+  loadingScreen.hidden = true;
+};
