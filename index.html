@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <link rel="icon" href="assets/images/icon.png"> 
+  <link rel="icon" href="assets/images/icon.png">
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width" />
   <title>Musicinator</title>
@@ -12,7 +12,11 @@
 </head>
 
 <body>
-  <div id="loading"><center><h1>loading...</h1></center></div>
+  <div id="loading">
+    <center>
+      <h1>loading...</h1>
+    </center>
+  </div>
   <div id="toolbar">
     <input type="text" id="nameInput" placeholder="Enter Name" />
     <button id="editButton">Edit</button>
@@ -23,15 +27,13 @@
     <button id="saveButton">Save</button>
   </div>
   <div id="tester">
-  <h1 id="note"></h1>
-  <input type="text" value="G5" placeholder="Piano Note Here!" id="noteInput" />
-  <input type="button" value="sound" onclick="electricpiano.playNote(noteInput);" />
-  <input type="button" value="test2" onclick="voice.playNote(noteInput);" />
-  <input type="button" value="test3"
-    onclick="voice.playNote('C5');voice.playNote('E5');voice.playNote('G5');voice.playNote('B5');" />
-  <input type="button" value="test3"
-    onclick="voice.playNote('C3');voice.playNote('E3');voice.playNote('G3');voice.playNote('B3');" />
-  <!--<input type="button" value="test"
+    <h1 id="note"></h1>
+    <input type="text" value="G5" placeholder="Piano Note Here!" id="noteInput" />
+    <input type="button" value="E-Piano" onclick="electricpiano.playNote(noteInput);" />
+    <input type="button" value="Voice" onclick="voice.playNote(noteInput);" />
+    <input type="button" value="Grand Piano" onclick="grandpiano.playNote(noteInput);" />
+    <input type="button" value="Harpsichord" onclick="harpsichord.playNote(noteInput);" />
+    <!--<input type="button" value="test"
     onclick="electricpiano.playNote(noteInput);voice.playNote(noteInput);voice.playNote('C5');voice.playNote('E5');voice.playNote('G5');voice.playNote('B5');voice.playNote('C3');voice.playNote('E3');voice.playNote('G3');voice.playNote('B3');" />-->
   </div>
   <canvas id="output"></canvas>
