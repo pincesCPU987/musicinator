@@ -1,6 +1,11 @@
 canvas = document.querySelector('#output');
 const ctx = canvas.getContext('2d');
 
+// Top to bottom
+//var keypattern = 'wbwbwbwwbwbw';
+// Bottom to top
+//var keypattern = 'wbwbwwbwbwbw';
+
 // // Draw white keys
 // ctx.fillStyle = 'white';
 // for (let i = 0; i < 14; i++) {
