@@ -8,10 +8,14 @@
   <title>Musicinator</title>
   <link href="style.css" rel="stylesheet" type="text/css" />
   <!--<script src="./src/notes.js"></script>-->
-  <script src="script.js" defer></script>
 </head>
 
 <body>
+  <div id="loading">
+    <center>
+      <h1>loading...</h1>
+    </center>
+  </div>
   <div id="toolbar">
     <input type="text" id="nameInput" placeholder="Enter Name" />
     <button id="editButton">Edit</button>
@@ -37,6 +41,7 @@
     onclick="electricpiano.playNote(noteInput);voice.playNote(noteInput);voice.playNote('C5');voice.playNote('E5');voice.playNote('G5');voice.playNote('B5');voice.playNote('C3');voice.playNote('E3');voice.playNote('G3');voice.playNote('B3');" />-->
   </div>
   <canvas id="output"></canvas>
+  <script src="script.js" defer></script>
 </body>
 
 </html>
