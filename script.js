@@ -102,6 +102,7 @@ let noteInput;
 setInterval(() => {
   noteInput = input.value;
   note.innerText = noteInput;
+  return noteInput;
 }  , 1);
 
 document.addEventListener("keydown", function (event) {
