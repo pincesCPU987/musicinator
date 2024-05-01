@@ -11,6 +11,7 @@ var output = document.querySelector("#output");
 var ctx = output.getContext("2d");
 
 
+
 // audio context
 var audioCtx = new AudioContext();
 
