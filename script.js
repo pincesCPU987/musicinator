@@ -83,17 +83,17 @@ class Instrument {
     var source = audioCtx.createBufferSource();
     source.buffer = sample;
     source.detune.value = detune; // man i love and hate this ghostwriter
-
+    
     source.connect(audioCtx.destination);
     source.start(); // duh
   }
 } // you figure it out imma et pasta now brb go eat you said that 4 times
 
 // Instruments and their sources
-var voice = new Instrument(['assets/voice/a3.wav', 'assets/voice/a3.wav', 'assets/voice/a3.wav', 'assets/voice/a3.wav', 'assets/voice/a3.wav', 'assets/voice/a4.wav', 'assets/voice/a5.wav']);
-var electricpiano = new Instrument(['assets/electricpiano/a2.wav', 'assets/electricpiano/a3.wav', 'assets/electricpiano/a4.wav', 'assets/electricpiano/a5.wav', 'assets/electricpiano/a6.wav', 'assets/electricpiano/a7.wav']);
-var harpsichord = new Instrument(['assets/harpsichord/a2.wav', 'assets/harpsichord/a2.wav', 'assets/harpsichord/a3.wav', 'assets/harpsichord/a4.wav', 'assets/harpsichord/a5.wav', 'assets/harpsichord/a6.wav']);
-var grandpiano = new Instrument(['assets/grandpiano/a2.wav', 'assets/grandpiano/a3.wav', 'assets/grandpiano/a4.wav', 'assets/grandpiano/a5.wav', 'assets/grandpiano/a6.wav', 'assets/grandpiano/a7.wav']);
+var voice = new Instrument(['assets/nothing.wav', 'assets/nothing.wav', 'assets/nothing.wav', 'assets/voice/a3.wav', 'assets/voice/a4.wav', 'assets/voice/a5.wav']);
+var electricpiano = new Instrument(['assets/nothing.wav', 'assets/nothing.wav', 'assets/electricpiano/a2.wav', 'assets/electricpiano/a3.wav', 'assets/electricpiano/a4.wav', 'assets/electricpiano/a5.wav', 'assets/electricpiano/a6.wav', 'assets/electricpiano/a7.wav']);
+var harpsichord = new Instrument(['assets/nothing.wav', 'assets/nothing.wav', 'assets/harpsichord/a2.wav', 'assets/harpsichord/a3.wav', 'assets/harpsichord/a4.wav', 'assets/harpsichord/a5.wav', 'assets/harpsichord/a6.wav']);
+var grandpiano = new Instrument(['assets/nothing.wav', 'assets/nothing.wav', 'assets/grandpiano/a2.wav', 'assets/grandpiano/a3.wav', 'assets/grandpiano/a4.wav', 'assets/grandpiano/a5.wav', 'assets/grandpiano/a6.wav', 'assets/grandpiano/a7.wav']);
 
 
 //load the instruments
