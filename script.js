@@ -110,15 +110,10 @@ document.addEventListener("keydown", function (event) {
   }
 });
 
-//loading div
-const loadingScreen = document.querySelector('#loading');
-
-window.onload = function() {
-  loadingScreen.hidden = true;
-};
-
+//instrument be default on page
 selectedInstrument = 'electricpiano';
 
+//instrument selector
 function playDetectedInstrument(note) {
   if (selectedInstrument === 'electricpiano') {
     electricpiano.playNote(note);
