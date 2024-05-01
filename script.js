@@ -102,7 +102,7 @@ async function load() {
   await grandpiano.load();
   await harpsichord.load();
   await voice.load();
-  console.log('loaded');
+  alert('loaded');
 }
 
 load();
