@@ -108,17 +108,12 @@ document.addEventListener("keydown", function (event) {
   if (event.code === "Space") {
     harpsichord.playNote('G3');
   }
-});
+})
 
-//loading div
-const loadingScreen = document.querySelector('#loading');
-
-window.onload = function() {
-  loadingScreen.hidden = true;
-};
-
+//default
 selectedInstrument = 'electricpiano';
 
+//instrument autodetect function
 function playDetectedInstrument(note) {
   if (selectedInstrument === 'electricpiano') {
     electricpiano.playNote(note);
