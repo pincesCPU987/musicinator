@@ -74,18 +74,18 @@ class Instrument {
 } // you figure it out imma et pasta now brb go eat you said that 4 times
 
 // Instruments and their sources
-var voice = new Instrument(['assets/voice/a3.wav', 'assets/voice/a4.wav', 'assets/voice/a5.wav']);
-var electricpiano = new Instrument(['assets/electricpiano/a2.wav', 'assets/electricpiano/a3.wav', 'assets/electricpiano/a4.wav', 'assets/electricpiano/a5.wav', 'assets/electricpiano/a6.wav', 'assets/electricpiano/a7.wav']);
-var harpsichord = new Instrument(['assets/harpsichord/a2.wav', 'assets/harpsichord/a3.wav', 'assets/harpsichord/a4.wav', 'assets/harpsichord/a5.wav', 'assets/harpsichord/a6.wav']);
-var grandpiano = new Instrument(['assets/grandpiano/a2.wav', 'assets/grandpiano/a3.wav', 'assets/grandpiano/a4.wav', 'assets/grandpiano/a5.wav', 'assets/grandpiano/a6.wav', 'assets/grandpiano/a7.wav']);
+var voice = new Instrument([",",'assets/voice/a3.wav', 'assets/voice/a4.wav', 'assets/voice/a5.wav']);
+var electricpiano = new Instrument([",'assets/electricpiano/a2.wav', 'assets/electricpiano/a3.wav', 'assets/electricpiano/a4.wav', 'assets/electricpiano/a5.wav', 'assets/electricpiano/a6.wav', 'assets/electricpiano/a7.wav']);
+var harpsichord = new Instrument([",'assets/harpsichord/a2.wav', 'assets/harpsichord/a3.wav', 'assets/harpsichord/a4.wav', 'assets/harpsichord/a5.wav', 'assets/harpsichord/a6.wav']);
+var grandpiano = new Instrument([",'assets/grandpiano/a2.wav', 'assets/grandpiano/a3.wav', 'assets/grandpiano/a4.wav', 'assets/grandpiano/a5.wav', 'assets/grandpiano/a6.wav', 'assets/grandpiano/a7.wav']);
 
 
 //load the instruments
 async function load() {
-  await voice.load();
   await electricpiano.load();
-  await harpsichord.load();
   await grandpiano.load();
+  await harpsichord.load();
+  await voice.load();
   console.log('loaded');
 }
 
@@ -94,17 +94,19 @@ load();
 //test note updater
 const note = document.querySelector('#note');
 const input = document.querySelector('#noteInput');
+const instrumentSelector = document.getElementById('Instrument');
 
+let selectedInstrument;
 let noteInput;
+
 setInterval(() => {
   noteInput = input.value;
   note.innerText = noteInput;
-  return noteInput;
 }  , 1);
 
 document.addEventListener("keydown", function (event) {
   if (event.code === "Space") {
-    electricpiano.playNote('G3');
+    harpsichord.playNote('G3');
   }
 });
 
@@ -114,3 +116,17 @@ const loadingScreen = document.querySelector('#loading');
 window.onload = function() {
   loadingScreen.hidden = true;
 };
+
+selectedInstrument = 'electricpiano';
+
+function playDetectedInstrument(note) {
+  if (selectedInstrument === 'electricpiano') {
+    electricpiano.playNote(note);
+  } if (selectedInstrument === 'grandpiano') {
+    grandpiano.playNote(note);
+  } if (selectedInstrument === 'voice') {
+    voice.playNote(note);
+  } if (selectedInstrument === 'harpsichord') {
+    harpsichord.playNote(note);
+  }
+}

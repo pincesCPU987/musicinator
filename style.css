@@ -24,7 +24,8 @@ h1 {
 
 input[type="text"],
 input[type="button"],
-button {
+button,
+select {
   border: 2px;
   background-color: #333;
   color: #eee;
@@ -36,7 +37,7 @@ button {
   border-style: solid;
 }
 
-input[type="button"]:hover, button:hover{
+input[type="button"]:hover, button:hover, option:hover{
   background-color: #444;
 }
 

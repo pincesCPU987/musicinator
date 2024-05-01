@@ -28,11 +28,16 @@
   </div>
   <div id="tester">
     <h1 id="note"></h1>
+    <label for="noteInput">Note:</label>
     <input type="text" value="G5" placeholder="Piano Note Here!" id="noteInput" />
-    <input type="button" value="E-Piano" onclick="electricpiano.playNote(noteInput);" />
-    <input type="button" value="Voice" onclick="voice.playNote(noteInput);" />
-    <input type="button" value="Grand Piano" onclick="grandpiano.playNote(noteInput);" />
-    <input type="button" value="Harpsichord" onclick="harpsichord.playNote(noteInput);" />
+    <label for="Instrument">Instrument:</label>
+    <select id="Instrument" value="electricpiano" onclick="selectedInstrument = instrumentSelector.value">
+      <option value="electricpiano">E-Piano</option>
+      <option value="voice">Voice</option>
+      <option value="grandpiano">Grand Piano</option>
+      <option value="harpsichord">Harpsichord</option>
+    </select>
+    <input type="button" value="Play!" onclick="playDetectedInstrument(noteInput);"/>
     <!--<input type="button" value="test"
     onclick="electricpiano.playNote(noteInput);voice.playNote(noteInput);voice.playNote('C5');voice.playNote('E5');voice.playNote('G5');voice.playNote('B5');voice.playNote('C3');voice.playNote('E3');voice.playNote('G3');voice.playNote('B3');" />-->
   </div>
