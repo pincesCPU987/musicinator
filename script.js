@@ -57,7 +57,7 @@ class Instrument {
       this.buffers.push(await audioCtx.decodeAudioData(audioBuffer));
     }
   }
-  playNote(note, key, row, col) {
+  async playNote(note, row, col) {
     var detunes = {
       "A": 0,
       "A#": 100,
@@ -135,15 +135,15 @@ document.addEventListener("keydown", function (event) {
 selectedInstrument = 'electricpiano';
 
 //instrument autodetect function
-function playDetectedInstrument(note, key, row, col) {
+function playDetectedInstrument(note, row, col) {
   if (selectedInstrument === 'electricpiano') {
-    electricpiano.playNote(note, key, row, col);
+    electricpiano.playNote(note, row, col);
   } if (selectedInstrument === 'grandpiano') {
-    grandpiano.playNote(note, key, row, col);
+    grandpiano.playNote(note, row, col);
   } if (selectedInstrument === 'voice') {
-    voice.playNote(note, key, row, col);
+    voice.playNote(note, row, col);
   } if (selectedInstrument === 'harpsichord') {
-    harpsichord.playNote(note, key, row, col);
+    harpsichord.playNote(note, row, col);
   }
 }
 
