@@ -86,6 +86,12 @@ class Instrument {
 
     source.connect(audioCtx.destination);
     source.start(); // duh
+    
+    while (qwertyActive[row][col] === 1) {
+      await new Promise((rs, rj) => {setTimeout(rs);});
+    }
+    source.stop();
+    
   } // you figure it out imma et pasta now brb go eat you said that 4 times
 
 }
