@@ -86,10 +86,6 @@ class Instrument {
 
     source.connect(audioCtx.destination);
     source.start(); // duh
-    while (qwertyActive[row][col] === 1) {
-
-    }
-    source.stop(); // duh
   } // you figure it out imma et pasta now brb go eat you said that 4 times
 
 }
