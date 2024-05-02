@@ -12,6 +12,13 @@ const qwertyNotes = [
   ['C3', 'D3', 'E3', 'F3', 'G3', 'A3', 'B3', 'C4', 'D4', 'E4']
 ];
 
+// Array for playing notes on keyboard
+let qwertyActive = [
+  ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'],
+  ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'],
+  ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0']
+];
+
 // buttons
 const editButton = document.getElementById("editButton");
 const selectButton = document.getElementById("selectButton");
@@ -50,7 +57,7 @@ class Instrument {
       this.buffers.push(await audioCtx.decodeAudioData(audioBuffer));
     }
   }
-  playNote(note) {
+  playNote(note, key, row, col) {
     var detunes = {
       "A": 0,
       "A#": 100,
@@ -79,6 +86,10 @@ class Instrument {
 
     source.connect(audioCtx.destination);
     source.start(); // duh
+    while (qwertyActive[row][col] === 1) {
+
+    }
+    source.stop(); // duh
   } // you figure it out imma et pasta now brb go eat you said that 4 times
 
 }
@@ -123,15 +134,15 @@ document.addEventListener("keydown", function (event) {
 selectedInstrument = 'electricpiano';
 
 //instrument autodetect function
-function playDetectedInstrument(note) {
+function playDetectedInstrument(note, key, row, col) {
   if (selectedInstrument === 'electricpiano') {
-    electricpiano.playNote(note);
+    electricpiano.playNote(note, key, row, col);
   } if (selectedInstrument === 'grandpiano') {
-    grandpiano.playNote(note);
+    grandpiano.playNote(note, key, row, col);
   } if (selectedInstrument === 'voice') {
-    voice.playNote(note);
+    voice.playNote(note, key, row, col);
   } if (selectedInstrument === 'harpsichord') {
-    harpsichord.playNote(note);
+    harpsichord.playNote(note, key, row, col);
   }
 }
 
@@ -154,6 +165,28 @@ document.addEventListener('keydown', (event) => {
   // Retrieve the note from the qwertyNotes array
   if (row !== -1 && col !== -1) {
     const note = qwertyNotes[row][col];
-    playDetectedInstrument(note);
+    qwertyActive[row][col] = 1;
+    playDetectedInstrument(note, row, col);
+  }
+});
+
+document.addEventListener('keyup', (event) => {
+  const key = event.key.toUpperCase(); // Convert to uppercase for consistency
+
+  // Find the corresponding row and column in the layout
+  let row = -1;
+  let col = -1;
+  for (let i = 0; i < qwertyLayout.length; i++) {
+    const index = qwertyLayout[i].indexOf(key);
+    if (index !== -1) {
+      row = i;
+      col = index;
+      break;
+    }
+  }
+
+  // Retrieve the note from the qwertyNotes array
+  if (row !== -1 && col !== -1) {
+    qwertyActive[row][col] = 0;
   }
 });
