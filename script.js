@@ -165,9 +165,11 @@ document.addEventListener('keydown', (event) => {
 
   // Retrieve the note from the qwertyNotes array
   if (row !== -1 && col !== -1) {
-    const note = qwertyNotes[row][col];
-    qwertyActive[row][col] = 1;
-    playDetectedInstrument(note, row, col);
+    if (qwertyActive[row][col] === 0) {
+      const note = qwertyNotes[row][col];
+      qwertyActive[row][col] = 1;
+      playDetectedInstrument(note, row, col);
+    }
   }
 });
 
