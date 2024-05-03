@@ -101,10 +101,10 @@ class Instrument {
         await new Promise((rs, rj) => {setTimeout(rs);});
       }
       volume.gain.setValueAtTime(1, audioCtx.currentTime);
-      volume.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.1);
+      volume.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.25);
     } else if (notemode == 'length') {
       volume.gain.setValueAtTime(1, audioCtx.currentTime + length);
-      volume.gain.linearRampToValueAtTime(0, audioCtx.currentTime + length + 0.1);
+      volume.gain.linearRampToValueAtTime(0, audioCtx.currentTime + length + 0.25);
     }
     
   }
