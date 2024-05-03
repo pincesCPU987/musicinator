@@ -157,7 +157,7 @@ function playDetectedInstrument(note, row, col) {
   } if (selectedInstrument === 'grandpiano') {
     grandpiano.playNote(note, 'key', {row: row, col: col});
   } if (selectedInstrument === 'voice') {
-    voice.playNote(note, 'key', {row: row, col: col});
+    voice.playNote(note, 'length', {length: 1});
   } if (selectedInstrument === 'harpsichord') {
     harpsichord.playNote(note, 'key', {row: row, col: col});
   }
