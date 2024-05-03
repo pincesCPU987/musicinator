@@ -1,5 +1,3 @@
-// Todo - make notemode length do something, also add a volume for the note instead of simply stopping the note
-
 // Define the keyboard layout
 const qwertyLayout = [
   ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '[', ']'],
