@@ -1,3 +1,5 @@
+// Todo - make notemode length do something, also add a volume for the note instead of simply stopping the note
+
 // Define the keyboard layout
 const qwertyLayout = [
   ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '[', ']'],
@@ -57,7 +59,7 @@ class Instrument {
       this.buffers.push(await audioCtx.decodeAudioData(audioBuffer));
     }
   }
-  async playNote(note, row, col) {
+  async playNote(note, notemode, data) {
     var detunes = {
       "A": 0,
       "A#": 100,
@@ -72,6 +74,13 @@ class Instrument {
       "G": 1000 - 1200,
       "G#": 1100 - 1200,
     }
+    if (notemode == 'key') {
+      var row = data.row;
+      var col = data.col;
+    } else if (notemode == 'length') {
+      var length = data.length;
+    }
+    
     // Note is a string like "A4" or "A#5"
     var notename = ((note.indexOf('#') >= 0) ? note.substring(0, 2) : note[0]);
     var octave = ((note.length == 3) ? note[2] : note[1]);
@@ -86,10 +95,14 @@ class Instrument {
 
     source.connect(audioCtx.destination);
     source.start(); // duh
-    while (qwertyActive[row][col] === 1) {
-      await new Promise((rs, rj) => {setTimeout(rs);});
+    if (notemode == 'key') {
+      while (qwertyActive[row][col] === 1) {
+        await new Promise((rs, rj) => {setTimeout(rs);});
+      }
+      source.stop();
+    } else if (notemode == 'length') {
+      // todo here
     }
-    source.stop();
     
   } // you figure it out imma et pasta now brb go eat you said that 4 times
 
@@ -137,13 +150,13 @@ selectedInstrument = 'electricpiano';
 //instrument autodetect function
 function playDetectedInstrument(note, row, col) {
   if (selectedInstrument === 'electricpiano') {
-    electricpiano.playNote(note, row, col);
+    electricpiano.playNote(note, 'key', {row: row, col: col});
   } if (selectedInstrument === 'grandpiano') {
-    grandpiano.playNote(note, row, col);
+    grandpiano.playNote(note, 'key', {row: row, col: col});
   } if (selectedInstrument === 'voice') {
-    voice.playNote(note, row, col);
+    voice.playNote(note, 'key', {row: row, col: col});
   } if (selectedInstrument === 'harpsichord') {
-    harpsichord.playNote(note, row, col);
+    harpsichord.playNote(note, 'key', {row: row, col: col});
   }
 }
 
