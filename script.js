@@ -46,7 +46,7 @@ var audioPlay = async (url) => {
   src.start();
 };
 
-//instrument class (duh)
+//instrument class
 class Instrument {
   constructor(assets) {
     this.assets = assets;
@@ -91,20 +91,25 @@ class Instrument {
 
     var source = audioCtx.createBufferSource();
     source.buffer = sample;
-    source.detune.value = detune; // man i love and hate this ghostwriter
+    source.detune.value = detune;
 
-    source.connect(audioCtx.destination);
-    source.start(); // duh
+    var volume = audioCtx.createGain();
+    volume.gain.value = 1;
+    source.connect(volume);
+    volume.connect(audioCtx.destination);
+    source.start();
     if (notemode == 'key') {
       while (qwertyActive[row][col] === 1) {
         await new Promise((rs, rj) => {setTimeout(rs);});
       }
-      source.stop();
+      volume.gain.setValueAtTime(1, audioCtx.currentTime);
+      volume.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.1);
     } else if (notemode == 'length') {
-      // todo here
+      volume.gain.setValueAtTime(1, audioCtx.currentTime + length);
+      volume.gain.linearRampToValueAtTime(0, audioCtx.currentTime + length + 0.1);
     }
     
-  } // you figure it out imma et pasta now brb go eat you said that 4 times
+  }
 
 }
 // Instruments and their sources
