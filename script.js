@@ -72,11 +72,13 @@ class Instrument {
       "G": 1000 - 1200,
       "G#": 1100 - 1200,
     }
+    var row, col, length;
+    console.log(notemode)
     if (notemode == 'key') {
-      var row = data.row;
-      var col = data.col;
+      row = data.row;
+      col = data.col;
     } else if (notemode == 'length') {
-      var length = data.length;
+      length = data.length;
     }
     
     // Note is a string like "A4" or "A#5"
