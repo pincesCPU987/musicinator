@@ -73,7 +73,6 @@ class Instrument {
       "G#": 1100 - 1200,
     }
     var row, col, length;
-    console.log(notemode)
     if (notemode == 'key') {
       row = data.row;
       col = data.col;
