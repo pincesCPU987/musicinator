@@ -46,8 +46,9 @@ var audioPlay = async (url) => {
 
 //instrument class
 class Instrument {
-  constructor(assets) {
+  constructor(assets, loop) {
     this.assets = assets;
+    this.loop = loop;
     this.buffers = [];
   }
   async load() {
@@ -96,6 +97,7 @@ class Instrument {
     volume.gain.value = 1;
     source.connect(volume);
     volume.connect(audioCtx.destination);
+    source.loop = !!this.loop;
     source.start();
     if (notemode == 'key') {
       while (qwertyActive[row][col] === 1) {
@@ -103,19 +105,30 @@ class Instrument {
       }
       volume.gain.setValueAtTime(1, audioCtx.currentTime);
       volume.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.25);
+      while (volume.gain.value > 0) {
+        await new Promise((rs, rj) => {setTimeout(rs);});
+      }
+      try {
+        source.stop();
+      } catch(err0r) {}
     } else if (notemode == 'length') {
       volume.gain.setValueAtTime(1, audioCtx.currentTime + length);
       volume.gain.linearRampToValueAtTime(0, audioCtx.currentTime + length + 0.25);
+      while (volume.gain.value > 0) {
+        await new Promise((rs, rj) => {setTimeout(rs);});
+      }
+      try {
+        source.stop();
+      } catch(err0r) {}
     }
-    
   }
 
 }
 // Instruments and their sources
-var voice = new Instrument(['assets/nothing.wav', 'assets/nothing.wav', 'assets/nothing.wav', 'assets/voice/a3.wav', 'assets/voice/a4.wav', 'assets/voice/a5.wav']);
-var electricpiano = new Instrument(['assets/nothing.wav', 'assets/nothing.wav', 'assets/electricpiano/a2.wav', 'assets/electricpiano/a3.wav', 'assets/electricpiano/a4.wav', 'assets/electricpiano/a5.wav', 'assets/electricpiano/a6.wav', 'assets/electricpiano/a7.wav']);
-var harpsichord = new Instrument(['assets/nothing.wav', 'assets/nothing.wav', 'assets/harpsichord/a2.wav', 'assets/harpsichord/a2.wav', 'assets/harpsichord/a3.wav', 'assets/harpsichord/a4.wav', 'assets/harpsichord/a5.wav', 'assets/harpsichord/a6.wav']);
-var grandpiano = new Instrument(['assets/nothing.wav', 'assets/nothing.wav', 'assets/grandpiano/a2.wav', 'assets/grandpiano/a3.wav', 'assets/grandpiano/a4.wav', 'assets/grandpiano/a5.wav', 'assets/grandpiano/a6.wav', 'assets/grandpiano/a7.wav']);
+var voice = new Instrument(['assets/nothing.wav', 'assets/nothing.wav', 'assets/nothing.wav', 'assets/voice/a3.wav', 'assets/voice/a4.wav', 'assets/voice/a5.wav'], true);
+var electricpiano = new Instrument(['assets/nothing.wav', 'assets/nothing.wav', 'assets/electricpiano/a2.wav', 'assets/electricpiano/a3.wav', 'assets/electricpiano/a4.wav', 'assets/electricpiano/a5.wav', 'assets/electricpiano/a6.wav', 'assets/electricpiano/a7.wav'], false);
+var harpsichord = new Instrument(['assets/nothing.wav', 'assets/nothing.wav', 'assets/harpsichord/a2.wav', 'assets/harpsichord/a2.wav', 'assets/harpsichord/a3.wav', 'assets/harpsichord/a4.wav', 'assets/harpsichord/a5.wav', 'assets/harpsichord/a6.wav'], false);
+var grandpiano = new Instrument(['assets/nothing.wav', 'assets/nothing.wav', 'assets/grandpiano/a2.wav', 'assets/grandpiano/a3.wav', 'assets/grandpiano/a4.wav', 'assets/grandpiano/a5.wav', 'assets/grandpiano/a6.wav', 'assets/grandpiano/a7.wav'], false);
 
 //load the instruments
 async function load() {
