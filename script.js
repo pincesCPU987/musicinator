@@ -105,7 +105,7 @@ class Instrument {
       }
       volume.gain.setValueAtTime(1, audioCtx.currentTime);
       volume.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.25);
-      while (volume.gain.value > 0.9) {
+      while (volume.gain.value > 0.5) {
         await new Promise((rs, rj) => {setTimeout(rs);});
       }
       try {
