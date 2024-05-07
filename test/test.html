@@ -1,0 +1,17 @@
+<audio controls="" src="song.mp3" id="music"></audio>
+<script src="equalizer.js"></script>
+
+<button id="playButton">Play</button>
+
+<script>
+// In your JavaScript, add an event listener to the button
+document.getElementById('playButton').addEventListener('click', function() {
+  // Check if context is in suspended state (autoplay policy)
+  if (audioContext.state === 'suspended') {
+    audioContext.resume();
+  }
+
+  // Play the audio
+  audioElement.play();
+});
+</script>

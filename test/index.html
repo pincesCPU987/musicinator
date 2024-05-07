@@ -1,0 +1,165 @@
+<html>
+
+<head>
+    <title>Musicinator Equalizer</title>
+    <style>
+        html {
+            background-color: #000;
+        }
+
+        div#equalizer {
+            color: #fff;
+            font-family: 'PT Sans', sans-serif;
+            width: 43vw;
+            height: 37vh;
+            background-color: #444;
+            border-color: #222;
+            border-style: solid;
+            border-width: 5px;
+            border-radius: 15px;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        div#equalizer div#EQGraph {
+            width: 43vw;
+            height: 21.7vh;
+            border-color: #222;
+            border-style: solid;
+            border-width: 5px;
+            border-left: none;
+            border-right: none;
+            background: #111;
+            position: relative;
+            bottom: 0%;
+            left: 0px;
+        }
+
+        h2 {
+            margin: 5px;
+        }
+
+        .point {
+            position: fixed;
+            background-color: red;
+            width: 10px;
+            height: 10px;
+            border-radius: 20px;
+        }
+
+        #p1 {
+            left: 15%;
+            top: 40%;
+            transform: translateX(-50%);
+        }
+
+        #p2 {
+            left: 37%;
+            top: 40%;
+            transform: translateX(-50%);
+        }
+
+        #p3 {
+            left: 60%;
+            top: 40%;
+            transform: translateX(-50%);
+        }
+
+        #p4 {
+            left: 90%;
+            top: 40%;
+            transform: translateX(-50%);
+        }
+
+        canvas {
+            height: 100%;
+            width: 100%;
+        }
+
+        input[type="range"] {
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="equalizer">
+        <center>
+            <h2>Equalizer</h2>
+        </center>
+        <div id="EQGraph">
+            <canvas id="myCanvas"></canvas>
+        </div>
+        <input id="slider1" type="range" min="50" max="120" step="2" value="150">
+        <input id="slider2" type="range" min="50" max="120" step="2" value="110">
+        <input id="slider3" type="range" min="50" max="120" step="2" value="50">
+        <input id="slider4" type="range" min="50" max="120" step="2" value="150">
+        <input id="slider5" type="range" min="50" max="120" step="2" value="150">
+        <input id="slider6" type="range" min="50" max="120" step="2" value="150">
+        <input id="slider7" type="range" min="50" max="120" step="2" value="150">
+    </div>
+
+    <script>
+        const canvas = document.getElementById("myCanvas");
+        const ctx = canvas.getContext("2d");
+
+        // Define your 7 y-values (adjust as needed)
+        let yValues = [50, 100, 80, 120, 60, 90, 70];
+
+        // Calculate x-values (equally spaced)
+        const numPoints = yValues.length;
+        const xValues = Array.from({ length: numPoints }, (_, i) => (i + 1) * 130.5);
+
+        const slider1 = document.querySelector('#slider1');
+        const slider2 = document.querySelector('#slider2');
+        const slider3 = document.querySelector('#slider3');
+        const slider4 = document.querySelector('#slider4');
+        const slider5 = document.querySelector('#slider5');
+        const slider6 = document.querySelector('#slider6');
+        const slider7 = document.querySelector('#slider7');
+
+
+        // Function to draw the curve
+        function drawCurve(yValues) {
+            // Move to the first point
+            ctx.moveTo(xValues[0] - 130.5, yValues[0]);
+
+            // Draw the curve through the points
+            for (let i = 1; i < numPoints - 2; i++) {
+                const xc = (xValues[i] - 130.5 + xValues[i + 1] - 130.5) / 2;
+                const yc = (yValues[i] + yValues[i + 1]) / 2;
+                ctx.quadraticCurveTo(xValues[i] - 130.5, yValues[i], xc, yc);
+            }
+
+            // Set line style and stroke the path
+            ctx.lineWidth = 5;
+            ctx.strokeStyle = "blue";
+            ctx.stroke();
+        }
+
+        // setInterval(() => {
+        //     // Gets eq values
+        //     yValues = [slider1.value, slider2.value, slider3.value, slider4.value, slider5.value, slider6.value, slider7.value];
+            
+        //     fillCanvas()
+
+        //     // Draws the curve with said values
+
+        //     setTimeout(() => {
+        //         drawCurve(yValues);
+        //     }, .5);
+            
+        // }, 1);
+
+        function fillCanvas() {
+            ctx.fillStyle = canvas.style.background;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+
+    </script>
+    <script src="equalizer.js"></script>
+</body>
+
+</html>
