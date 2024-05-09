@@ -308,7 +308,7 @@ function startLoggingMIDIInput(midiAccess) {
   });
 }
 
-navigator.requestMIDIAccess({ sysex: false }).then((access) => {console.log(access);}).catch((e) => {console.log(e);});
+navigator.requestMIDIAccess({ sysex: false }).then((access) => {startLoggingMIDIInput(access)}).catch((e) => {console.log(e);});
 
 document.addEventListener('keyup', (event) => {
   const key = event.key.toUpperCase(); // Convert to uppercase for consistency
