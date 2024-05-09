@@ -251,6 +251,7 @@ function parseMidiMessage(message) {
 }
 
 function onNote(note, velocity) {
+  console.log(note, velocity);
   if (velocity > 0) {
     midiActive[note] = 1;
     var sequence = ('C,C#,D,D#,E,F,G,G#,A,A#,B').split(',');
