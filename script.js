@@ -356,5 +356,13 @@ function getMIDINote(callback) {
 
 getMIDINote((note) => {
   console.log("MIDI note pressed:", note);
-  playDetectedInstrument(midiNotes[note], 0, 0, true)
+  if (selectedInstrument === 'electricpiano') {
+    electricpiano.playNote(midiNotes[note], 'key', {note:note}, true);
+  } if (selectedInstrument === 'grandpiano') {
+    grandpiano.playNote(midiNotes[note], 'key', {note:note}, true);
+  } if (selectedInstrument === 'voice') {
+    voice.playNote(midiNotes[note], 'key', {note:note}, true);
+  } if (selectedInstrument === 'harpsichord') {
+    harpsichord.playNote(midiNotes[note], 'key', {note:note}, true);
+  }
 });
