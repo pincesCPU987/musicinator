@@ -1,17 +1,20 @@
-<audio controls="" src="song.mp3" id="music"></audio>
+<center>
+<audio hidden loop controls="" src="song.mp3" id="music"></audio>
+</center>
 <script src="equalizer.js"></script>
+<center>
+<button id="playButton" onclick="connecterator = playAudio()">Play</button>
 
-<button id="playButton">Play</button>
+<label for="selectedFilter">Filter</label>
 
-<script>
-// In your JavaScript, add an event listener to the button
-document.getElementById('playButton').addEventListener('click', function() {
-  // Check if context is in suspended state (autoplay policy)
-  if (audioContext.state === 'suspended') {
-    audioContext.resume();
-  }
+<select id="selectedFilter" oninput="filterChoice = this.value;">
+  <option value="none">None</option>
+  <option value="lowshelf">Lowshelf</option>
+  <option value="highshelf">Highshelf</option>
+  <option value="peaking">Peaking</option>
+</select>
 
-  // Play the audio
-  audioElement.play();
-});
-</script>
+<input type="text" placeholder="Frequency" id="freq" oninput="freq = this.value;">
+<input type="text" placeholder="Gain" id="gain" oninput="gain = this.value;">
+
+</center>
