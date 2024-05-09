@@ -258,13 +258,13 @@ function onNote(note, velocity) {
     var octave = Math.floor(note / 12) + 1;
     note = sequence[note % 12] + octave;
     if (selectedInstrument === 'electricpiano') {
-      electricpiano.playNote(note, 'key', {note:note});
+      electricpiano.playNote(note, 'key', {note:note}, true);
     } if (selectedInstrument === 'grandpiano') {
-      grandpiano.playNote(note, 'key', {note:note});
+      grandpiano.playNote(note, 'key', {note:note}, true);
     } if (selectedInstrument === 'voice') {
-      voice.playNote(note, 'key', {note:note});
+      voice.playNote(note, 'key', {note:note}, true);
     } if (selectedInstrument === 'harpsichord') {
-      harpsichord.playNote(note, 'key', {note:note});
+      harpsichord.playNote(note, 'key', {note:note}, true);
     }
   } else if (velocity < 0) {
     midiActive[note] = 0;
