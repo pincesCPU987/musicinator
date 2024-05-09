@@ -19,6 +19,11 @@ let qwertyActive = [
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 ];
 
+let midiActive = [];
+for (var i = 0; i < 128; i++) {
+  midiActive.push(0);
+}
+
 // buttons
 const editButton = document.getElementById("editButton");
 const selectButton = document.getElementById("selectButton");
@@ -120,6 +125,19 @@ class Instrument {
       try {
         source.stop();
       } catch(err0r) {}
+    } else if (notemode == 'midi') {
+      volume.gain.setValueAtTime(1, audioCtx.currentTime);
+      while (midiActive[data.note] === 1) {
+        await new Promise((rs, rj) => {setTimeout(rs);});
+      }
+      volume.gain.setValueAtTime(1, audioCtx.currentTime);
+      volume.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.25);
+      while (volume.gain.value > 0) {
+        await new Promise((rs, rj) => {setTimeout(rs);});
+      }
+      try {
+        source.stop();
+      } catch(err0r) {}
     }
   }
 
@@ -202,6 +220,77 @@ document.addEventListener('keydown', (event) => {
     }
   }
 });
+
+/**
+ * Parse basic information out of a MIDI message.
+ */
+function parseMidiMessage(message) {
+  return {
+    command: message.data[0] >> 4,
+    channel: message.data[0] & 0xf,
+    note: message.data[1],
+    velocity: message.data[2] / 127
+  }
+}
+
+function onNote(note, velocity) {
+  if (velocity > 0) {
+    midiActive[note] = 1;
+    var sequence = ('C,C#,D,D#,E,F,G,G#,A,A#,B').split(',');
+    var octave = Math.floor(note / 12) + 1;
+    note = sequence[note % 12] + octave;
+    if (selectedInstrument === 'electricpiano') {
+      electricpiano.playNote(note, 'key', {note:note});
+    } if (selectedInstrument === 'grandpiano') {
+      grandpiano.playNote(note, 'key', {note:note);
+    } if (selectedInstrument === 'voice') {
+      voice.playNote(note, 'key', {note:note);
+    } if (selectedInstrument === 'harpsichord') {
+      harpsichord.playNote(note, 'key', {note:note});
+    }
+  } else if (velocity < 0) {
+    midiActive[note] = 0;
+  }
+}
+function onPad(pad, velocity) {}
+function onPitchBend(value) {}
+function onModWheel(value) {}
+
+function handleMidiMessage(message) {
+
+  // Parse the MIDIMessageEvent.
+  const {command, channel, note, velocity} = parseMidiMessage(message)
+
+  // Stop command.
+  // Negative velocity is an upward release rather than a downward press.
+  if (command === 8) {
+    if      (channel === 0) onNote(note, -velocity)
+    else if (channel === 9) onPad(note, -velocity)
+  }
+
+  // Start command.
+  else if (command === 9) {
+    if      (channel === 0) onNote(note, velocity)
+    else if (channel === 9) onPad(note, velocity)
+  }
+
+  // Knob command.
+  else if (command === 11) {
+    if (note === 1) onModWheel(velocity)
+  }
+
+  // Pitch bend command.
+  else if (command === 14) {
+    onPitchBend(velocity)
+  }
+}
+function startLoggingMIDIInput(midiAccess) {
+  midiAccess.inputs.forEach((entry) => {
+    entry.onmidimessage = handleMidiMessage;
+  });
+}
+
+navigator.requestMIDIAccess().then((access) => {console.log(access);}).catch((e) => {console.log(e);});
 
 document.addEventListener('keyup', (event) => {
   const key = event.key.toUpperCase(); // Convert to uppercase for consistency
