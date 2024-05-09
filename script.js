@@ -308,7 +308,7 @@ function startLoggingMIDIInput(midiAccess) {
   });
 }
 
-navigator.requestMIDIAccess().then((access) => {console.log(access);}).catch((e) => {console.log(e);});
+navigator.requestMIDIAccess({ sysex: false }).then((access) => {console.log(access);}).catch((e) => {console.log(e);});
 
 document.addEventListener('keyup', (event) => {
   const key = event.key.toUpperCase(); // Convert to uppercase for consistency
@@ -354,7 +354,7 @@ function getMIDINote(callback) {
     });
 }
 
-getMIDINote((note) => {
+/*getMIDINote((note) => {
   console.log("MIDI note pressed:", note);
   if (selectedInstrument === 'electricpiano') {
     electricpiano.playNote(midiNotes[note], 'key', {note:note}, true);
@@ -366,3 +366,4 @@ getMIDINote((note) => {
     harpsichord.playNote(midiNotes[note], 'key', {note:note}, true);
   }
 });
+*/
