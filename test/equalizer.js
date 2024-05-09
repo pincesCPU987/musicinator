@@ -1,25 +1,44 @@
-let filterTypes = ['lowpass', 'highpass', 'bandpass', 'lowshelf', 'highshelf', 'peaking', 'notch', 'allpass'];
+const audioElement = document.querySelector("#music");
+const filterSelect = document.querySelector("#selectedFilter");
+let filterChoice, selectedFilter, source, audioCtx, freq, connecterator;
 
-// Create a new AudioContext
-var audioContext = new (window.AudioContext || window.webkitAudioContext)();
+// Function to create a BiquadFilter with the selected type
+function createFilter(filterType) {
+    audioCtx = audioCtx || new AudioContext();
+    const filter = audioCtx.createBiquadFilter();
+    switch (filterType) {
+        case "lowshelf":
+            filter.type = "lowshelf";
+            break;
+        case "highshelf":
+            filter.type = "highshelf";
+            break;
+        case "peaking":
+            filter.type = "peaking";
+            break;
+        default:
+            filter.type = "none";
+            break;
+    }
+    filter.frequency.value = freq;
+    filter.gain.value = gain;
 
-// Select the audio element
-var audioElement = document.getElementById('music');
+    return filter;
+}
 
-// Create a MediaElementAudioSourceNode
-// Feed the HTMLMediaElement into it
-var source = audioContext.createMediaElementSource(audioElement);
-
-// Create a BiquadFilterNode
-var biquadFilter = audioContext.createBiquadFilter();
-
-// Connect the source to the filter, the filter to the destination
-source.connect(biquadFilter);
-biquadFilter.connect(audioContext.destination);
-
-// Set the Biquad filter type
-biquadFilter.type = "lowshelf";
-
-
-biquadFilter.frequency.value = 500;
-biquadFilter.gain.value = 5;
+function playAudio(filterChoice) {
+    if (!connecterator) {
+        selectedFilter = createFilter(filterChoice);
+        source = audioCtx.createMediaElementSource(audioElement);
+        source.connect(selectedFilter).connect(audioCtx.destination);
+        audioElement.play();
+    } else {
+        audioElement.pause();
+        // Disconnect existing filter and connect the new one
+        selectedFilter = createFilter(filterChoice);
+        source.connect(selectedFilter).connect(audioCtx.destination);
+        audioElement.play();
+    }
+    let finish = true;
+    return finish;
+}
