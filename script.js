@@ -64,7 +64,7 @@ class Instrument {
       this.buffers.push(await audioCtx.decodeAudioData(audioBuffer));
     }
   }
-  async playNote(note, notemode, data) {
+  async playNote(note, notemode, data, isMidi) {
     var detunes = {
       "A": 0,
       "A#": 100,
@@ -105,7 +105,7 @@ class Instrument {
     volume.connect(audioCtx.destination);
     source.loop = !!this.loop;
     source.start();
-    if (notemode == 'key') {
+    if (isMidi === false) {
       while (qwertyActive[row][col] === 1) {
         await new Promise((rs, rj) => {setTimeout(rs);});
       }
@@ -117,16 +117,7 @@ class Instrument {
       try {
         source.stop();
       } catch(err0r) {}
-    } else if (notemode == 'length') {
-      volume.gain.setValueAtTime(1, audioCtx.currentTime + length);
-      volume.gain.linearRampToValueAtTime(0, audioCtx.currentTime + length + 0.25);
-      while (volume.gain.value > 0) {
-        await new Promise((rs, rj) => {setTimeout(rs);});
-      }
-      try {
-        source.stop();
-      } catch(err0r) {}
-    } else if (notemode == 'midi') {
+    } else if (isMidi === true) {
       volume.gain.setValueAtTime(1, audioCtx.currentTime);
       while (midiActive[data.note] === 1) {
         await new Promise((rs, rj) => {setTimeout(rs);});
@@ -184,15 +175,15 @@ document.addEventListener("keydown", function (event) {
 selectedInstrument = 'electricpiano';
 
 //instrument autodetect function
-function playDetectedInstrument(note, row, col) {
+function playDetectedInstrument(note, row, col, isMidi) {
   if (selectedInstrument === 'electricpiano') {
-    electricpiano.playNote(note, 'key', {row: row, col: col});
+    electricpiano.playNote(note, 'key', {row: row, col: col}, isMidi);
   } if (selectedInstrument === 'grandpiano') {
-    grandpiano.playNote(note, 'key', {row: row, col: col});
+    grandpiano.playNote(note, 'key', {row: row, col: col}, isMidi);
   } if (selectedInstrument === 'voice') {
-    voice.playNote(note, 'key', {row: row, col: col});
+    voice.playNote(note, 'key', {row: row, col: col}, isMidi);
   } if (selectedInstrument === 'harpsichord') {
-    harpsichord.playNote(note, 'key', {row: row, col: col});
+    harpsichord.playNote(note, 'key', {row: row, col: col}, isMidi);
   }
 }
 
@@ -217,7 +208,7 @@ document.addEventListener('keydown', (event) => {
     if (qwertyActive[row][col] === 0) {
       const note = qwertyNotes[row][col];
       qwertyActive[row][col] = 1;
-      playDetectedInstrument(note, row, col);
+      playDetectedInstrument(note, row, col, false);
     }
   }
 });
@@ -339,4 +330,5 @@ function getMIDINote(callback) {
 
 getMIDINote((note) => {
   console.log("MIDI note pressed:", note);
+  playDetectedInstrument(note, 0, 0, true)
 });
