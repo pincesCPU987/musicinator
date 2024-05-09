@@ -242,9 +242,9 @@ function onNote(note, velocity) {
     if (selectedInstrument === 'electricpiano') {
       electricpiano.playNote(note, 'key', {note:note});
     } if (selectedInstrument === 'grandpiano') {
-      grandpiano.playNote(note, 'key', {note:note);
+      grandpiano.playNote(note, 'key', {note:note});
     } if (selectedInstrument === 'voice') {
-      voice.playNote(note, 'key', {note:note);
+      voice.playNote(note, 'key', {note:note});
     } if (selectedInstrument === 'harpsichord') {
       harpsichord.playNote(note, 'key', {note:note});
     }
