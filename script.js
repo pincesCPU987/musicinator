@@ -143,6 +143,7 @@ class Instrument {
         source.stop();
       } catch(err0r) {}
     } else if (isMidi === true) {
+      console.log(midiActive[data.note]);
       volume.gain.setValueAtTime(1, audioCtx.currentTime);
       while (midiActive[data.note] === 1) {
         await new Promise((rs, rj) => {setTimeout(rs);});
