@@ -254,7 +254,7 @@ function onNote(note, velocity) {
   console.log(note, velocity);
   if (velocity > 0) {
     midiActive[note] = 1;
-    var sequence = ('C,C#,D,D#,E,F,G,G#,A,A#,B').split(',');
+    var sequence = ('C,C#,D,D#,E,F,F#,G,G#,A,A#,B').split(',');
     var octave = Math.floor(note / 12) + 1;
     note = sequence[note % 12] + octave;
     if (selectedInstrument === 'electricpiano') {
