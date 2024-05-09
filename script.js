@@ -20,6 +20,7 @@ let qwertyActive = [
 ];
 
 let midiActive = [];
+
 for (var i = 0; i < 128; i++) {
   midiActive.push(0);
 }
@@ -311,4 +312,31 @@ document.addEventListener('keyup', (event) => {
   if (row !== -1 && col !== -1) {
     qwertyActive[row][col] = 0;
   }
+});
+
+function getMIDINote(callback) {
+  navigator.requestMIDIAccess({ sysex: false })
+    .then((midiAccess) => {
+      const inputs = midiAccess.inputs.values();
+
+      for (const input of inputs) {
+        input.onmidimessage = (message) => {
+          const data = message.data;
+          const command = data[0];
+          const note = data[1];
+
+          // Check for "note on" message (command value 144)
+          if (command === 144) {
+            callback(note); // Return the note value
+          }
+        };
+      }
+    })
+    .catch((error) => {
+      console.error("Error accessing MIDI devices:", error);
+    });
+}
+
+getMIDINote((note) => {
+  console.log("MIDI note pressed:", note);
 });
