@@ -355,5 +355,5 @@ function getMIDINote(callback) {
 
 getMIDINote((note) => {
   console.log("MIDI note pressed:", note);
-  playDetectedInstrument(midiNotes[note-1], 0, 0, true)
+  playDetectedInstrument(midiNotes[note], 0, 0, true)
 });
