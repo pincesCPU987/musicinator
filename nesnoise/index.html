@@ -1,0 +1,57 @@
+<link rel="stylesheet" href="styles.css">
+<div id="error">
+  <h1 class="huge">
+    ERROR!!!
+  </h1>
+  <p id="errordetails">
+    
+  </p>
+</div>
+
+<div id="values">
+  <span class="wide">program counter (PC): </span><span class="value" id="pc"></span>
+  <br>
+  <span class="wide">instruction register (I): </span><span class="value" id="i"></span>
+  <br>
+  <span class="wide">accumulator (AC): </span><span class="value" id="ac"></span>
+  <br>
+  <span class="wide">memory address register (M): </span><span class="value" id="m"></span>
+  <br>
+  <span class="wide">data register (Z): </span><span class="value" id="z"></span>
+  
+  <br>
+  <br>
+  
+  sound channels:
+  <br>
+  <table class="values" id="channels">
+    
+  </table>
+  
+  <br>
+  
+  registers:
+  <br>
+  <table class="values" id="registers">
+    
+  </table>
+  
+  <br>
+  
+  rom space (<span class="value" id="start"></span> to <span class="value" id="end"></span>):
+  <table class="values" id="rom">
+    
+  </table>
+</div>
+
+<div id="click2start">
+  <h1>
+    choose file to start...
+  </h1>
+</div>
+
+<input type="file" id="input" accept=".nesnoise">
+<br>
+<textarea id="code"></textarea>
+
+<script src="script.js"></script>
