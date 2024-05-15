@@ -600,7 +600,6 @@ at pc: 0x${this.pc.toString(16).padStart(4, '0')}`);
     this.z = 0;
   }
 }
-var comp = new APU();
 
 /*
 var data = [
@@ -705,4 +704,12 @@ codeinput.onkeydown = async (e) => {
     running = true;
     run();
   }
+}
+
+var comp;
+
+document.querySelector('#load').onclick = (e) => {
+  comp = new APU();
+  document.querySelector('#content').style.display = 'block';
+  e.target.style.display = 'none';
 }
