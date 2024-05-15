@@ -1,0 +1,66 @@
+.huge {
+  font-size: 200px;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+#error {
+  display: none;
+}
+
+#values {
+  display: none;
+}
+
+#click2start {
+  display: block;
+}
+
+.values {
+  border-collapse: collapse;
+}
+
+td, th {
+  width: 75px;
+  height: 20px;
+  min-width: 75px;
+  min-height: 20px;
+  text-align: center;
+}
+
+.fullborder {
+  border: 1px solid black;
+}
+
+.rightborder {
+  border-right: 1px solid black;
+}
+
+.cornercell {
+  border: none;
+}
+
+.noborder {
+  border: 1px solid #0000;
+}
+
+.highlight {
+  background-color: yellow;
+}
+
+.wide {
+  display: inline-block;
+  width: 200px;
+}
+
+.value {
+  font-family: monospace;
+}
+
+#code {
+  width: 300px;
+  height: 200px;
+  white-space: nowrap;
+  overflow: auto;
+  resize: horizontal;
+}
