@@ -1,0 +1,33 @@
+0x0020, 0xffff, ; Set register 0 to 0xffff
+0x0010,         ; Set AC to register 0
+0x008d,         ; Set triangle volume to AC
+
+0x0021, 0x000b, ; Set register 1 to 0x000b (the jump address)
+0x0011,         ; Set AC to register 1
+0x0048,         ; Set memory address register to AC
+
+0x002f, 0x000f, ; Set register F to 0x000f
+0x001f,         ; Set AC to register F
+
+0x0000,         ; Update
+0x0061, 0x0001, ; Subtract 1 from AC
+0x0051, 0x0000, ; Jump if AC is not 0x0000
+
+0x0020, 0x0000, ; Set register 0 to 0x0000
+0x0010,         ; Set AC to register 0
+0x008d,         ; Set triangle volume to AC
+
+0x0021, 0x001b, ; Set register 1 to 0x001b (the jump address)
+0x0011,         ; Set AC to register 1
+0x0048,         ; Set memory address register to AC
+
+0x002f, 0x002d, ; Set register F to 0x002d
+0x001f,         ; Set AC to register F
+
+0x0000,         ; Update
+0x0061, 0x0001, ; Subtract 1 from AC
+0x0051, 0x0000, ; Jump if AC is not 0
+
+0x0010,         ; Set register 0 to AC (AC is now 0 because we stopped jumping)
+0x0048,         ; Set memory address register to AC
+0x000f,         ; Jump to beginning
