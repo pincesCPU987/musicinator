@@ -41,7 +41,8 @@ td, th {
 }
 
 .cornercell {
-  border: none;
+  border-top: none;
+  border-left: none;
 }
 
 .noborder {
@@ -67,4 +68,21 @@ td, th {
   white-space: nowrap;
   overflow: auto;
   resize: horizontal;
+}
+
+#instructiontable td,
+#instructiontable th {
+  min-width: 125px;
+  min-height: 25px;
+  width: 125px;
+  height: 25px;
+  font-size: 12px;
+  font-family: sans-serif;
+  padding: 1px;
+}
+
+.blackfill:not(.cornercell) {
+  color: white;
+  background-color: black;
+  border-color: white;
 }
