@@ -1,7 +1,11 @@
-<link rel="stylesheet" href="styles.css">
-
 <button id="load">
-  &#x23FB;
+  Turn On
+  <!--&#x23FB;-->
+  <!--
+  <svg width="16" height="16">
+    <path d="M7,0 L9,0 L9,8 L7,8 Z M6,1 L0,8 L8,16 L16,8 L10,1 L10,3 L14,8 L8,14 L2,8 L6,3 Z"></path>
+  </svg>
+  -->
 </button>
 <div id="content">
   <div id="error">
@@ -45,19 +49,146 @@
     
     rom space (<span class="value" id="start"></span> to <span class="value" id="end"></span>):
     <table class="values" id="rom">
-    
+      
     </table>
   </div>
   
   <div id="click2start">
     <h1>
-      choose file to start...
+      choose rom file or enter code to start...
     </h1>
   </div>
   
   <input type="file" id="input" accept=".nesnoise">
   <br>
   <textarea id="code"></textarea>
-</div>
+  
+  <div id="help">
+    <details>
+      <summary>What Is NesNoise?</summary>
+      <div>
+        <p>
+          NesNoise is a 16-bit bytecode-based (meaning it is not an accurate emulator of anything) music machine, designed to sound somewhat like the Nintendo Entertainment System.
+        </p>
+        <p>
+          You enter instructions in binary, and the instructions play a part in making different sounds.
+        </p>
+        <br>
+        It is internally based on HTML5/JS. Nothing you enter is stored anywhere, as the whole project runs entirely in the browser.
+        <br>
+        <p>
+          The computer-like interface has no RAM, but it has 16 registers, and a memory adress register intended to read values from ROM.
+        </p>
+        <p>
+          It has 4 sound channels - Square A (SQA), Square B (SQB), Triangle (TRI), and White Noise (FUZ), which has a variable sample rate.
+        </p>
+        <p>
+          All values in the uploaded ROMs are little-endian, but are converted to a normal JavaScript integer, and the textbox input is big-endian, to conform with JavaScript integers.
+        </p>
+      </div>
+    </details>
+    <details>
+      <summary>What are these instructions you speak of?</summary>
+      <div>
+        <p>
+          These instructions are 8-bit, meaning the upper byte is completely ignored.
+        </p>
+        <p>
+          Here is the official table of instructions, ommitting the upper byte:
+        </p>
+        <!--<table>
+          <tr>
+            <th></th><th>0x</th><th>1x</th><th>2x</th><th>3x</th><th>4x</th><th>5x</th><th>6x</th><th>7x</th><th>8x</th><th>9x</th><th>Ax</th><th>Bx</th><th>Cx</th><th>Dx</th><th>Ex</th><th>Fx</th>
+          </tr>
+          <tr>
+            <th>x0</th><td>ACSET REG0</td>
+          </tr>
+        </table>-->
+        
 
-<script src="script.js"></script>
+<table id="instructiontable" class="values"><tr><th class="cornercell blackfill"></th><th class="fullborder blackfill">0x</th><th class="fullborder blackfill">1x</th><th class="fullborder blackfill">2x</th><th class="fullborder blackfill">3x</th><th class="fullborder blackfill">4x</th><th class="fullborder blackfill">5x</th><th class="fullborder blackfill">6x</th><th class="fullborder blackfill">7x</th><th class="fullborder blackfill">8x</th><th class="fullborder blackfill">9x</th><th class="fullborder blackfill">Ax</th><th class="fullborder blackfill">Bx</th><th class="fullborder blackfill">Cx</th><th class="fullborder blackfill">Dx</th><th class="fullborder blackfill">Ex</th><th class="fullborder blackfill">Fx</th></tr><tr><th class="fullborder blackfill">x0</th><td class="fullborder">NOP</td><td class="fullborder">ACSET REG0</td><td class="fullborder">REGSET 0, Z</td><td class="fullborder">REGSET 0, AC</td><td class="fullborder">ACSET MEM</td><td class="fullborder">JMPEQ AC, Z, MEM</td><td class="fullborder">ADD AC, Z</td><td class="fullborder">ADD AC, MEM</td><td class="fullborder">SQAFREQ AC</td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td></tr><tr><th class="fullborder blackfill">x1</th><td class="fullborder"></td><td class="fullborder">ACSET REG1</td><td class="fullborder">REGSET 1, Z</td><td class="fullborder">REGSET 1, AC</td><td class="fullborder"></td><td class="fullborder">JMPNEQ AC, Z, MEM</td><td class="fullborder">SUB AC, Z</td><td class="fullborder">SUB AC, MEM</td><td class="fullborder">SQAVOL AC</td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td></tr><tr><th class="fullborder blackfill">x2</th><td class="fullborder"></td><td class="fullborder">ACSET REG2</td><td class="fullborder">REGSET 2, Z</td><td class="fullborder">REGSET 2, AC</td><td class="fullborder"></td><td class="fullborder">JMPLT AC, Z, MEM</td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td></tr><tr><th class="fullborder blackfill">x3</th><td class="fullborder"></td><td class="fullborder">ACSET REG3</td><td class="fullborder">REGSET 3, Z</td><td class="fullborder">REGSET 3, AC</td><td class="fullborder"></td><td class="fullborder">JMPLTE AC, Z, MEM</td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td></tr><tr><th class="fullborder blackfill">x4</th><td class="fullborder"></td><td class="fullborder">ACSET REG4</td><td class="fullborder">REGSET 4, Z</td><td class="fullborder">REGSET 4, AC</td><td class="fullborder"></td><td class="fullborder">JMPGT AC, Z, MEM</td><td class="fullborder">RSHIFT AC, Z</td><td class="fullborder">RSHIFT AC, MEM</td><td class="fullborder">SQBFREQ AC</td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td></tr><tr><th class="fullborder blackfill">x5</th><td class="fullborder"></td><td class="fullborder">ACSET REG5</td><td class="fullborder">REGSET 5, Z</td><td class="fullborder">REGSET 5, AC</td><td class="fullborder"></td><td class="fullborder">JMPGTE AC, Z, MEM</td><td class="fullborder">LSHIFT AC, Z</td><td class="fullborder">LSHIFT AC, MEM</td><td class="fullborder">SQBVOL AC</td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td></tr><tr><th class="fullborder blackfill">x6</th><td class="fullborder"></td><td class="fullborder">ACSET REG6</td><td class="fullborder">REGSET 6, Z</td><td class="fullborder">REGSET 6, AC</td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td></tr><tr><th class="fullborder blackfill">x7</th><td class="fullborder"></td><td class="fullborder">ACSET REG7</td><td class="fullborder">REGSET 7, Z</td><td class="fullborder">REGSET 7, AC</td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td></tr><tr><th class="fullborder blackfill">x8</th><td class="fullborder"></td><td class="fullborder">ACSET REG8</td><td class="fullborder">REGSET 8, Z</td><td class="fullborder">REGSET 8, AC</td><td class="fullborder">REGSET M, AC</td><td class="fullborder"></td><td class="fullborder">AND AC, Z</td><td class="fullborder">AND AC, MEM</td><td class="fullborder">TRIFREQ AC</td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td></tr><tr><th class="fullborder blackfill">x9</th><td class="fullborder"></td><td class="fullborder">ACSET REG9</td><td class="fullborder">REGSET 9, Z</td><td class="fullborder">REGSET 9, AC</td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder">OR AC, Z</td><td class="fullborder">OR AC, MEM</td><td class="fullborder">TRIVOL AC</td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td></tr><tr><th class="fullborder blackfill">xA</th><td class="fullborder"></td><td class="fullborder">ACSET REGA</td><td class="fullborder">REGSET A, Z</td><td class="fullborder">REGSET A, AC</td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder">XOR AC, Z</td><td class="fullborder">XOR AC, MEM</td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td></tr><tr><th class="fullborder blackfill">xB</th><td class="fullborder"></td><td class="fullborder">ACSET REGB</td><td class="fullborder">REGSET B, Z</td><td class="fullborder">REGSET B, AC</td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td></tr><tr><th class="fullborder blackfill">xC</th><td class="fullborder"></td><td class="fullborder">ACSET REGC</td><td class="fullborder">REGSET C, Z</td><td class="fullborder">REGSET C, AC</td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder">NOT AC</td><td class="fullborder"></td><td class="fullborder">FUZFREQ AC</td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td></tr><tr><th class="fullborder blackfill">xD</th><td class="fullborder"></td><td class="fullborder">ACSET REGD</td><td class="fullborder">REGSET D, Z</td><td class="fullborder">REGSET D, AC</td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder">FUZVOL AC</td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td></tr><tr><th class="fullborder blackfill">xE</th><td class="fullborder"></td><td class="fullborder">ACSET REGE</td><td class="fullborder">REGSET E, Z</td><td class="fullborder">REGSET E, AC</td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td></tr><tr><th class="fullborder blackfill">xF</th><td class="fullborder">JMP MEM</td><td class="fullborder">ACSET REGF</td><td class="fullborder">REGSET F, Z</td><td class="fullborder">REGSET F, AC</td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td><td class="fullborder"></td></tr></table>
+      </div>
+    </details>
+    <details>
+      <summary>What is that weird text box?</summary>
+      <div>
+        <p>
+          The text box is designed for input that doesn't require a hex editor. It enables comments, and parses values as JavaScript integers.
+        </p>
+        <p>
+          This does NOT mean you can enter other JavaScript syntaxes; you can only enter numbers (decimal, '0x' hex values, '0b' binary values, '0o' octal values...).
+        </p>
+        <br>
+        To add a comment, use a semicolon. This is used like a JavaScript or C++ comment (i.e. '//').
+        <p>
+          The comma is used to separate values, and extra whitespace and comments are ignored. A comment ends at the end of a line.
+        </p>
+        <p>
+          For example, you can write "0x0000, ; Update the sound outputs".
+        </p>
+      </div>
+    </details>
+    <details>
+      <summary>Things that may need explaining...</summary>
+      <details>
+        <summary>To see things work, the browser needs to breathe.</summary>
+        <div>
+          <p>
+            The NOP instruction does not simply do nothing, as you may think. It updates all of the sound outputs if they have changed, and only then does it wait for 1 frame.
+          </p>
+          <p>
+            It <i>should</i> run at 60fps, but your mileage may vary.
+          </p>
+        </div>
+      </details>
+      <details>
+        <summary>RAM? Where we're going, we don't need RAM.</summary>
+        <div>
+          <p>
+            There are 16 registers general-purpose registers. Each register can be set to AC (the accumulator) or Z (the data register). You can also set AC to one of the registers.
+          </p>
+          <p>
+            They have hexadecimal names, 0-9 and A-F, for convenience.
+          </p>
+          <p>
+            When any instruction requests a Z value, that value comes from the word after the current instruction. When this Z value is required, the program counter jumps 2 steps to accommodate the double-word instruction.
+          </p>
+          
+          <p>
+            These registers are the only way to store data, as the machine probably does not need much storage for its sole purpose, and registers are often reused anyway.
+          </p>
+        </div>
+      </details>
+      <details>
+        <summary>Other registers</summary>
+        <div>
+          <p>
+            There are other registers in the system. These are the accumulator (AC), the program counter (PC), the memory adress register (M), and the data register (Z), and the instruction register (I).
+          </p>
+          <br>
+          <p>
+            The accumulator is the first value for any calculations. It is also the register that is compared to data for conditional jumps.
+          </p>
+          <p>
+            The program counter by default increases by 1 when an instruction is executed. However, if the instruction has a data value, it jumps by 2, and if the instruction itself is a jump, the program counter jumps there and does not jump ahead so it can execute the instruction at the new adress.
+          </p>
+          <p>
+            The memory adress register does not have anything to do with RAM. Instead, its sole purpose is interacting with ROM. It enables jumping, as well as performing calculations on values in the ROM.
+          </p>
+          <p>
+            The data register is the Z register because there is already a general-purpose D register. This is only used when an instruction requires it, and in this case, it is overwritten, and is completely ignored otherwise.
+          </p>
+          <p>
+            The instruction register is the register that holds the current instruction. It is not accessible by the instructions themselves.
+          </p>
+        </div>
+      </details>
+    </details>
+    <br>
+    More help on its way (maybe)...
+  </div>
+</div>
+<br>
+Nintendo Entertainment System Copyright © Nintendo
+<br>
+I am not affiliated with Nintendo.
