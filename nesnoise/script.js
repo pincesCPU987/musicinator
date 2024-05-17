@@ -690,7 +690,6 @@ codeinput.onkeydown = async (e) => {
     await new Promise((rs, rj) => {setTimeout(rs, 1/30);});
     comp.reset();
     
-    console.log(lines);
     for (var i = 0; i < comp.rom.length; i++) {
       if (i < lines.length) {
         comp.rom[i] = lines[i];
