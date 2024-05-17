@@ -86,3 +86,19 @@ td, th {
   background-color: black;
   border-color: white;
 }
+
+details details summary {
+  margin-left: 25px;
+}
+
+details details div {
+  margin-left: 45px;
+}
+
+#slowmosliderspan {
+  display: none;
+}
+
+#slowmoslider {
+  width: 1000px;
+}
