@@ -1,3 +1,4 @@
+; Example of noise pulse
 0x0020, 0xffff, ; Set register 0 to 0xffff
 0x0010,         ; Set AC to register 0
 0x008d,         ; Set triangle volume to AC
