@@ -19,6 +19,14 @@
   </div>
   
   <div id="values">
+    Slow-mo: <input type="checkbox" id="slowmo">
+    <br>
+    <span id="slowmosliderspan">
+      Slow-mo delay (ms): <input type="range" min="0" max="1000" id="slowmoslider" value="0">
+      <br>
+      <span id="slowmoslidervalue"></span>
+      <br>
+    </span>
     <span class="wide">program counter (PC): </span><span class="value" id="pc"></span>
     <br>
     <span class="wide">instruction register (I): </span><span class="value" id="i"></span>
@@ -126,10 +134,6 @@
         </p>
         <p>
           For example, you can write "0x0000, ; Update the sound outputs".
-        </p>
-        <br>
-        <p>
-          Once you enter a program, press Ctrl+Enter to run it.
         </p>
       </div>
     </details>
