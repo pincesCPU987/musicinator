@@ -111,7 +111,7 @@ class Instrument {
     } else if (notemode == 'length') {
       length = data.length;
     }
-    
+
     // Note is a string like "A4" or "A#5"
     var notename = ((note.indexOf('#') >= 0) ? note.substring(0, 2) : note[0]);
     var octave = ((note.length == 3) ? note[2] : note[1]);
@@ -132,30 +132,30 @@ class Instrument {
     source.start();
     if (isMidi === false) {
       while (qwertyActive[row][col] === 1) {
-        await new Promise((rs, rj) => {setTimeout(rs);});
+        await new Promise((rs, rj) => { setTimeout(rs); });
       }
       volume.gain.setValueAtTime(1, audioCtx.currentTime);
       volume.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.25);
       while (volume.gain.value > 0) {
-        await new Promise((rs, rj) => {setTimeout(rs);});
+        await new Promise((rs, rj) => { setTimeout(rs); });
       }
       try {
         source.stop();
-      } catch(err0r) {}
+      } catch (err0r) { }
     } else if (isMidi === true) {
       console.log(data.note, midiActive.length, midiActive[data.note]);
       volume.gain.setValueAtTime(1, audioCtx.currentTime);
       while (midiActive[data.note] === 1) {
-        await new Promise((rs, rj) => {setTimeout(rs);});
+        await new Promise((rs, rj) => { setTimeout(rs); });
       }
       volume.gain.setValueAtTime(1, audioCtx.currentTime);
       volume.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.25);
       while (volume.gain.value > 0) {
-        await new Promise((rs, rj) => {setTimeout(rs);});
+        await new Promise((rs, rj) => { setTimeout(rs); });
       }
       try {
         source.stop();
-      } catch(err0r) {}
+      } catch (err0r) { }
     }
   }
 
@@ -193,7 +193,7 @@ setInterval(() => {
 
 document.addEventListener("keydown", function (event) {
   if (event.code === "Space") {
-    harpsichord.playNote('G3');
+    playing = !playing;
   }
 })
 
@@ -201,18 +201,29 @@ document.addEventListener("keydown", function (event) {
 selectedInstrument = 'electricpiano';
 
 //instrument autodetect function
-function playDetectedInstrument(note, row, col, isMidi) {
-  if (selectedInstrument === 'electricpiano') {
-    electricpiano.playNote(note, 'key', {row: row, col: col}, isMidi);
-  } if (selectedInstrument === 'grandpiano') {
-    grandpiano.playNote(note, 'key', {row: row, col: col}, isMidi);
-  } if (selectedInstrument === 'voice') {
-    voice.playNote(note, 'key', {row: row, col: col}, isMidi);
-  } if (selectedInstrument === 'harpsichord') {
-    harpsichord.playNote(note, 'key', {row: row, col: col}, isMidi);
+function playDetectedInstrument(note, row, col, isMidi, playback, pbInstrument) {
+  if (!playback) {
+    if (selectedInstrument === 'electricpiano') {
+      electricpiano.playNote(note, 'key', { row: row, col: col }, isMidi);
+    } if (selectedInstrument === 'grandpiano') {
+      grandpiano.playNote(note, 'key', { row: row, col: col }, isMidi);
+    } if (selectedInstrument === 'voice') {
+      voice.playNote(note, 'key', { row: row, col: col }, isMidi);
+    } if (selectedInstrument === 'harpsichord') {
+      harpsichord.playNote(note, 'key', { row: row, col: col }, isMidi);
+    } else {
+      if (pbInstrument === 'electricpiano') {
+        electricpiano.playNote(note, 'key', { row: row, col: col }, isMidi);
+      } if (pbInstrument === 'grandpiano') {
+        grandpiano.playNote(note, 'key', { row: row, col: col }, isMidi);
+      } if (pbInstrument === 'voice') {
+        voice.playNote(note, 'key', { row: row, col: col }, isMidi);
+      } if (pbInstrument === 'harpsichord') {
+        harpsichord.playNote(note, 'key', { row: row, col: col }, isMidi);
+      }
+    }
   }
 }
-
 // Create an event listener for key presses
 document.addEventListener('keydown', (event) => {
   const key = event.key.toUpperCase(); // Convert to uppercase for consistency
@@ -234,7 +245,7 @@ document.addEventListener('keydown', (event) => {
     if (qwertyActive[row][col] === 0) {
       const note = qwertyNotes[row][col];
       qwertyActive[row][col] = 1;
-      playDetectedInstrument(note, row, col, false);
+      playDetectedInstrument(note, row, col, false, false);
     }
   }
 });
@@ -259,37 +270,37 @@ function onNote(note, velocity) {
     var octave = Math.floor(note / 12) + 1;
     var note2 = sequence[note % 12] + octave;
     if (selectedInstrument === 'electricpiano') {
-      electricpiano.playNote(note2, 'key', {note:note}, true);
+      electricpiano.playNote(note2, 'key', { note: note }, true);
     } if (selectedInstrument === 'grandpiano') {
-      grandpiano.playNote(note2, 'key', {note:note}, true);
+      grandpiano.playNote(note2, 'key', { note: note }, true);
     } if (selectedInstrument === 'voice') {
-      voice.playNote(note2, 'key', {note:note}, true);
+      voice.playNote(note2, 'key', { note: note }, true);
     } if (selectedInstrument === 'harpsichord') {
-      harpsichord.playNote(note2, 'key', {note:note}, true);
+      harpsichord.playNote(note2, 'key', { note: note }, true);
     }
   } else if (velocity < 0) {
     midiActive[note] = 0;
   }
 }
-function onPad(pad, velocity) {}
-function onPitchBend(value) {}
-function onModWheel(value) {}
+function onPad(pad, velocity) { }
+function onPitchBend(value) { }
+function onModWheel(value) { }
 
 function handleMidiMessage(message) {
 
   // Parse the MIDIMessageEvent.
-  const {command, channel, note, velocity} = parseMidiMessage(message)
+  const { command, channel, note, velocity } = parseMidiMessage(message)
 
   // Stop command.
   // Negative velocity is an upward release rather than a downward press.
   if (command === 8) {
-    if      (channel === 0) onNote(note, -velocity)
+    if (channel === 0) onNote(note, -velocity)
     else if (channel === 9) onPad(note, -velocity)
   }
 
   // Start command.
   else if (command === 9) {
-    if      (channel === 0) onNote(note, velocity)
+    if (channel === 0) onNote(note, velocity)
     else if (channel === 9) onPad(note, velocity)
   }
 
@@ -309,7 +320,7 @@ function startLoggingMIDIInput(midiAccess) {
   });
 }
 
-navigator.requestMIDIAccess({ sysex: false }).then((access) => {startLoggingMIDIInput(access)}).catch((e) => {console.log(e);});
+navigator.requestMIDIAccess({ sysex: false }).then((access) => { startLoggingMIDIInput(access) }).catch((e) => { console.log(e); });
 
 document.addEventListener('keyup', (event) => {
   const key = event.key.toUpperCase(); // Convert to uppercase for consistency
