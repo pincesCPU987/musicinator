@@ -1,3 +1,5 @@
+// Todo - comments at bottom
+
 class APU {
   constructor() {
     this.ctx = new AudioContext();
@@ -15,6 +17,7 @@ class APU {
     this.i = 0;
     this.z = 0;
     
+    this.unjmp = 0;
     
     this.channels = [];
     
@@ -149,7 +152,13 @@ class APU {
         await new Promise((rs, rj) => {requestAnimationFrame(rs);});
         break;
       }
+      case 0x08: {
+        this.pc = this.unjmp;
+        jumps = 0;
+        break;
+      }
       case 0x0f: {
+        this.unjmp = this.pc + 1;
         this.pc = this.m;
         jumps = 0;
         break;
@@ -401,7 +410,6 @@ class APU {
       default: {
         throw new Error(`No such instruction: 0x${this.i.toString(16).padStart(4, '0')}
 at pc: 0x${this.pc.toString(16).padStart(4, '0')}`);
-        break;
       }
     }
     this.pc += jumps;
@@ -618,6 +626,7 @@ async function run() {
     await comp.executeInstruction().catch((e) => {
       document.querySelector('#error').style.display = 'block';
       document.querySelector('#errordetails').innerText = e.message;
+      running = false;
     });
     if (document.querySelector('#slowmo').checked) {
       document.querySelector('#slowmosliderspan').style.display = 'inline';
@@ -696,7 +705,6 @@ codeinput.onkeydown = async (e) => {
     await new Promise((rs, rj) => {setTimeout(rs, 1/30);});
     comp.reset();
     
-    console.log(lines);
     for (var i = 0; i < comp.rom.length; i++) {
       if (i < lines.length) {
         comp.rom[i] = lines[i];
