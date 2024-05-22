@@ -1,8 +1,8 @@
 class APU {
-	constructor() {
-  	this.ctx = new AudioContext();
+  constructor() {
+    this.ctx = new AudioContext();
     
-  	this.rom = new Uint16Array(64 * 1024);
+    this.rom = new Uint16Array(64 * 1024);
     
     this.registers = new Uint16Array(16);
     
@@ -29,7 +29,7 @@ class APU {
     gain.connect(this.ctx.destination);
     gain.gain.value = 0;
     this.channels.push({
-    	vol: 0,
+      vol: 0,
       newVol: 0,
       freq: 440,
       newFreq: 440,
@@ -45,7 +45,7 @@ class APU {
     gain.connect(this.ctx.destination);
     gain.gain.value = 0;
     this.channels.push({
-    	vol: 0,
+      vol: 0,
       newVol: 0,
       freq: 440,
       newFreq: 440,
@@ -61,7 +61,7 @@ class APU {
     gain.connect(this.ctx.destination);
     gain.gain.value = 0;
     this.channels.push({
-    	vol: 0,
+      vol: 0,
       newVol: 0,
       freq: 440,
       newFreq: 440,
@@ -94,7 +94,7 @@ class APU {
     gain.connect(this.ctx.destination);
     gain.gain.value = 0;
     this.channels.push({
-    	vol: 0,
+      vol: 0,
       newVol: 0,
       freq: 440,
       newFreq: 440,
@@ -103,27 +103,27 @@ class APU {
     });
     
     for (var i = 0; i < this.channels.length; i++) {
-    	this.channels[i].osc.start();
+      this.channels[i].osc.start();
     }
   }
   async executeInstruction() {
-  	this.i = this.rom[this.pc];
+    this.i = this.rom[this.pc];
     var jumps = 1;
     switch (this.i & 0xff) {
-    	case 0x00: {
-      	for (var i = 0; i < this.channels.length; i++) {
+      case 0x00: {
+        for (var i = 0; i < this.channels.length; i++) {
           if (this.channels[i].freq != this.channels[i].newFreq) {
-          	if (i < 3) {
-            	this.channels[i].osc.frequency.value = this.channels[i].newFreq;
+            if (i < 3) {
+              this.channels[i].osc.frequency.value = this.channels[i].newFreq;
               this.channels[i].freq = this.channels[i].newFreq;
             } else {
-            	var targetSampleRate = this.channels[i].newFreq;
+              var targetSampleRate = this.channels[i].newFreq;
               this.channels[i].freq = this.channels[i].newFreq;
               var buffer = this.ctx.createBuffer(1, Math.floor(this.ctx.sampleRate/targetSampleRate) * targetSampleRate, this.ctx.sampleRate);
-							
+              
               var data = buffer.getChannelData(0);
               var currentSample = 0;
-							
+              
               var framecounter = 0;
               for (var z = 0; z < data.length; z++) {
                 if (framecounter == Math.round(this.ctx.sampleRate/targetSampleRate)) {
@@ -143,7 +143,7 @@ class APU {
             }
           }
           if (this.channels[i].vol != this.channels[i].newVol) {
-          	this.channels[i].gain.gain.value = this.channels[i].newVol / 0xffff;
+            this.channels[i].gain.gain.value = this.channels[i].newVol / 0xffff;
             this.channels[i].vol = this.channels[i].newVol;
           }
         }
@@ -151,12 +151,12 @@ class APU {
         break;
       }
       case 0x08: {
-      	this.pc = this.unjmp;
+        this.pc = this.unjmp;
         jumps = 0;
         break;
       }
       case 0x0f: {
-      	this.unjmp = this.pc + 1;
+        this.unjmp = this.pc + 1;
         this.pc = this.m;
         jumps = 0;
         break;
@@ -164,13 +164,13 @@ class APU {
       
       
       case 0x10: case 0x11: case 0x12: case 0x13: case 0x14: case 0x15: case 0x16: case 0x17: case 0x18: case 0x19: case 0x1a: case 0x1b: case 0x1c: case 0x1d: case 0x1e: case 0x1f: {
-      	this.ac = this.registers[this.i & 0xf];
+        this.ac = this.registers[this.i & 0xf];
         break;
       }
       
       
       case 0x20: case 0x21: case 0x22: case 0x23: case 0x24: case 0x25: case 0x26: case 0x27: case 0x28: case 0x29: case 0x2a: case 0x2b: case 0x2c: case 0x2d: case 0x2e: case 0x2f: {
-      	this.z = this.rom[this.pc + 1];
+        this.z = this.rom[this.pc + 1];
         this.registers[this.i & 0xf] = this.z;
         jumps = 2;
         break;
@@ -184,21 +184,21 @@ class APU {
       
       
       case 0x40: {
-      	this.ac = this.rom[this.m];
+        this.ac = this.rom[this.m];
         break;
       }
       case 0x41: {
-      	this.z = this.rom[this.pc + 1];
+        this.z = this.rom[this.pc + 1];
         this.ac = this.z;
         jumps = 2;
         break;
       }
       case 0x48: {
-      	this.m = this.ac;
+        this.m = this.ac;
         break;
       }
       case 0x49: {
-      	this.z = this.rom[this.pc + 1];
+        this.z = this.rom[this.pc + 1];
         this.m = this.z;
         jumps = 2;
         break;
@@ -206,129 +206,129 @@ class APU {
       
       
       case 0x50: {
-      	this.z = this.rom[this.pc + 1];
+        this.z = this.rom[this.pc + 1];
         if (this.ac == this.z) {
-        	this.pc = this.m;
+          this.pc = this.m;
           jumps = 0;
         } else {
-        	jumps = 2;
+          jumps = 2;
         }
         break;
       }
       case 0x51: {
-      	this.z = this.rom[this.pc + 1];
+        this.z = this.rom[this.pc + 1];
         if (this.ac != this.z) {
-        	this.pc = this.m;
+          this.pc = this.m;
           jumps = 0;
         } else {
-        	jumps = 2;
+          jumps = 2;
         }
         break;
       }
       case 0x52: {
-      	this.z = this.rom[this.pc + 1];
+        this.z = this.rom[this.pc + 1];
         if (this.ac < this.z) {
-        	this.pc = this.m;
+          this.pc = this.m;
           jumps = 0;
         } else {
-        	jumps = 2;
+          jumps = 2;
         }
         break;
       }
       case 0x53: {
-      	this.z = this.rom[this.pc + 1];
+        this.z = this.rom[this.pc + 1];
         if (this.ac <= this.z) {
-        	this.pc = this.m;
+          this.pc = this.m;
           jumps = 0;
         } else {
-        	jumps = 2;
+          jumps = 2;
         }
         break;
       }
       case 0x54: {
-      	this.z = this.rom[this.pc + 1];
+        this.z = this.rom[this.pc + 1];
         if (this.ac > this.z) {
-        	this.pc = this.m;
+          this.pc = this.m;
           jumps = 0;
         } else {
-        	jumps = 2;
+          jumps = 2;
         }
         break;
       }
       case 0x55: {
-      	this.z = this.rom[this.pc + 1];
+        this.z = this.rom[this.pc + 1];
         if (this.ac >= this.z) {
-        	this.pc = this.m;
+          this.pc = this.m;
           jumps = 0;
         } else {
-        	jumps = 2;
+          jumps = 2;
         }
         break;
       }
       
       
       case 0x60: {
-      	this.z = this.rom[this.pc + 1];
+        this.z = this.rom[this.pc + 1];
         this.ac += this.z;
         while (this.ac > 0xffff) {
-        	this.ac -= 0x10000;
+          this.ac -= 0x10000;
         }
         jumps = 2;
         break;
       }
       case 0x61: {
-      	this.z = this.rom[this.pc + 1];
+        this.z = this.rom[this.pc + 1];
         this.ac -= this.z;
         while (this.ac < 0) {
-        	this.ac += 0x10000;
+          this.ac += 0x10000;
         }
         jumps = 2;
         break;
       }
       case 0x64: {
-      	this.z = this.rom[this.pc + 1];
+        this.z = this.rom[this.pc + 1];
         this.ac >>= this.z;
         while (this.ac < 0) {
-        	this.ac += 0x10000;
+          this.ac += 0x10000;
         }
         while (this.ac > 0xffff) {
-        	this.ac -= 0x10000;
+          this.ac -= 0x10000;
         }
         jumps = 2;
         break;
       }
       case 0x65: {
-      	this.z = this.rom[this.pc + 1];
+        this.z = this.rom[this.pc + 1];
         this.ac <<= this.z;
         while (this.ac < 0) {
-        	this.ac += 0x10000;
+          this.ac += 0x10000;
         }
         while (this.ac > 0xffff) {
-        	this.ac -= 0x10000;
+          this.ac -= 0x10000;
         }
         jumps = 2;
         break;
       }
       case 0x68: {
-      	this.z = this.rom[this.pc + 1];
+        this.z = this.rom[this.pc + 1];
         this.ac &= this.z;
         jumps = 2;
         break;
       }
       case 0x69: {
-      	this.z = this.rom[this.pc + 1];
+        this.z = this.rom[this.pc + 1];
         this.ac |= this.z;
         jumps = 2;
         break;
       }
       case 0x6a: {
-      	this.z = this.rom[this.pc + 1];
+        this.z = this.rom[this.pc + 1];
         this.ac ^= this.z;
         jumps = 2;
         break;
       }
       case 0x6c: {
-      	this.z = this.rom[this.pc + 1];
+        this.z = this.rom[this.pc + 1];
         this.ac = ~this.ac;
         jumps = 2;
         break;
@@ -336,96 +336,96 @@ class APU {
       
       
       case 0x70: {
-      	this.ac += this.rom[this.m];
+        this.ac += this.rom[this.m];
         while (this.ac > 0xffff) {
-        	this.ac -= 0x10000;
+          this.ac -= 0x10000;
         }
         break;
       }
       case 0x71: {
-      	this.ac += this.rom[this.m];
+        this.ac += this.rom[this.m];
         while (this.ac < 0) {
-        	this.ac += 0x10000;
+          this.ac += 0x10000;
         }
         break;
       }
       case 0x74: {
-      	this.ac >>= this.rom[this.m];
+        this.ac >>= this.rom[this.m];
         while (this.ac < 0) {
-        	this.ac += 0x10000;
+          this.ac += 0x10000;
         }
         while (this.ac > 0xffff) {
-        	this.ac -= 0x10000;
+          this.ac -= 0x10000;
         }
         break;
       }
       case 0x75: {
-      	this.ac <<= this.rom[this.m];
+        this.ac <<= this.rom[this.m];
         while (this.ac < 0) {
-        	this.ac += 0x10000;
+          this.ac += 0x10000;
         }
         while (this.ac > 0xffff) {
-        	this.ac -= 0x10000;
+          this.ac -= 0x10000;
         }
         break;
       }
       case 0x76: {
-      	this.ac &= this.rom[this.m];
+        this.ac &= this.rom[this.m];
         break;
       }
       case 0x77: {
-      	this.ac |= this.rom[this.m];
+        this.ac |= this.rom[this.m];
         break;
       }
       case 0x78: {
-      	this.ac ^= this.rom[this.m];
+        this.ac ^= this.rom[this.m];
         break;
       }
       
       
       case 0x80: {
-      	this.channels[0].newFreq = this.ac;
+        this.channels[0].newFreq = this.ac;
         break;
       }
       case 0x81: {
-      	this.channels[0].newVol = this.ac;
+        this.channels[0].newVol = this.ac;
         break;
       }
       case 0x84: {
-      	this.channels[1].newFreq = this.ac;
+        this.channels[1].newFreq = this.ac;
         break;
       }
       case 0x85: {
-      	this.channels[1].newVol = this.ac;
+        this.channels[1].newVol = this.ac;
         break;
       }
       case 0x88: {
-      	this.channels[2].newFreq = this.ac;
+        this.channels[2].newFreq = this.ac;
         break;
       }
       case 0x89: {
-      	this.channels[2].newVol = this.ac;
+        this.channels[2].newVol = this.ac;
         break;
       }
       case 0x8c: {
-      	this.channels[3].newFreq = this.ac;
+        this.channels[3].newFreq = this.ac;
         break;
       }
       case 0x8d: {
-      	this.channels[3].newVol = this.ac;
+        this.channels[3].newVol = this.ac;
         break;
       }
       
       
       default: {
-				throw new Error(`No such instruction: 0x${this.i.toString(16).padStart(4, '0')}
+        throw new Error(`No such instruction: 0x${this.i.toString(16).padStart(4, '0')}
 at pc: 0x${this.pc.toString(16).padStart(4, '0')}`);
       }
     }
     this.pc += jumps;
     
     while (this.pc > 0xffff) {
-    	this.pc -= 0x10000;
+      this.pc -= 0x10000;
     }
     
     
@@ -452,7 +452,7 @@ at pc: 0x${this.pc.toString(16).padStart(4, '0')}`);
     var channelnames = ['Square A', 'Square B', 'Triangle', 'Noise'];
     
     for (var i = 0; i < this.channels.length; i++) {
-    	var th = document.createElement('th');
+      var th = document.createElement('th');
       th.innerHTML = channelnames[i];
       th.classList.add('fullborder');
       tr.appendChild(th);
@@ -467,7 +467,7 @@ at pc: 0x${this.pc.toString(16).padStart(4, '0')}`);
     head.innerText = 'Frequency';
     tr.appendChild(head);
     for (var i = 0; i < this.channels.length; i++) {
-    	var td = document.createElement('td');
+      var td = document.createElement('td');
       td.innerHTML = `0x${this.channels[i].freq.toString(16).padStart(4, '0')}`;
       td.classList.add('fullborder');
       td.classList.add('value');
@@ -483,7 +483,7 @@ at pc: 0x${this.pc.toString(16).padStart(4, '0')}`);
     head.innerText = 'Gain';
     tr.appendChild(head);
     for (var i = 0; i < this.channels.length; i++) {
-    	var td = document.createElement('td');
+      var td = document.createElement('td');
       td.innerHTML = `0x${this.channels[i].vol.toString(16).padStart(4, '0')}`;
       td.classList.add('fullborder');
       td.classList.add('value');
@@ -504,7 +504,7 @@ at pc: 0x${this.pc.toString(16).padStart(4, '0')}`);
     tr.appendChild(blank);
     
     for (var i = 0; i < this.registers.length; i++) {
-    	var th = document.createElement('th');
+      var th = document.createElement('th');
       th.innerHTML = `0x${i.toString(16)}`;
       th.classList.add('fullborder');
       th.classList.add('value');
@@ -521,7 +521,7 @@ at pc: 0x${this.pc.toString(16).padStart(4, '0')}`);
     tr.appendChild(head);
     
     for (var i = 0; i < this.registers.length; i++) {
-    	var td = document.createElement('td');
+      var td = document.createElement('td');
       td.innerHTML = `0x${this.registers[i].toString(16).padStart(4, '0')}`;
       td.classList.add('fullborder');
       td.classList.add('value');
@@ -538,11 +538,11 @@ at pc: 0x${this.pc.toString(16).padStart(4, '0')}`);
     values.querySelector('#end').innerText = `0x${((this.pc - (this.pc % 64)) + 63).toString(16).padStart(4, '0')}`;
     
     for (var i = (this.pc - (this.pc % 64)); i < (this.pc - (this.pc % 64)) + 64; i++) {
-    	if (i > 0xffff) {
-      	break;
+      if (i > 0xffff) {
+        break;
       }
       if (i % 16 == 0) {
-      	tr = document.createElement('tr');
+        tr = document.createElement('tr');
         rom.appendChild(tr);
         var th = document.createElement('th');
         th.innerText = `0x${(i - (i % 16)).toString(16).padStart(4, '0')}`;
@@ -555,12 +555,12 @@ at pc: 0x${this.pc.toString(16).padStart(4, '0')}`);
       td.innerText = `0x${this.rom[i].toString(16).padStart(4, '0')}`;
       td.classList.add('value');
       if (i % 8 == 7) {
-      	td.classList.add('rightborder');
+        td.classList.add('rightborder');
       } else {
-      	td.classList.add('noborder');
+        td.classList.add('noborder');
       }
       if (i == this.pc) {
-      	td.classList.add('highlight');
+        td.classList.add('highlight');
       }
     }
   }
@@ -607,7 +607,7 @@ at pc: 0x${this.pc.toString(16).padStart(4, '0')}`);
     }
         
     for (var i = 0; i < this.registers.length; i++) {
-    	this.registers[i] = 0;
+      this.registers[i] = 0;
     }
     
     this.ac = 0;
@@ -620,20 +620,20 @@ at pc: 0x${this.pc.toString(16).padStart(4, '0')}`);
 
 /*
 var data = [
-	
+  
 ];
 
 for (var i = 0; i < data.length; i++) {
-	comp.rom[i] = data[i];
+  comp.rom[i] = data[i];
 }
 */
 
 async function run() {
-	await comp.reset();
+  await comp.reset();
   document.querySelector('#click2start').style.display = 'none';
   document.querySelector('#values').style.display = 'block';
-	while (running) {
-  	await comp.executeInstruction().catch((e) => {
+  while (running) {
+    await comp.executeInstruction().catch((e) => {
       document.querySelector('#error').style.display = 'block';
       document.querySelector('#errordetails').innerText = e.message;
       running = false;
@@ -643,7 +643,7 @@ async function run() {
       document.querySelector('#slowmoslidervalue').innerText = document.querySelector('#slowmoslider').value;
       await new Promise((rs, rj) => {setTimeout(rs, Number(document.querySelector('#slowmoslider').value));});
     } else {
-    	document.querySelector('#slowmosliderspan').style.display = 'none';
+      document.querySelector('#slowmosliderspan').style.display = 'none';
     }
   }
 }
@@ -655,17 +655,17 @@ input.onchange = (e) => {
   var fr = new FileReader();
   
   fr.onload = async (e) => {
-  	var result = new Uint8Array(e.target.result);
+    var result = new Uint8Array(e.target.result);
     if (result.length != 131072) {
-    	alert(`File size must be exactly 131072 bytes. File uploaded is ${result.length} bytes.`);
+      alert(`File size must be exactly 131072 bytes. File uploaded is ${result.length} bytes.`);
       return;
     }
     
     running = false;
-  	await new Promise((rs, rj) => {setTimeout(rs, 1/30)});
+    await new Promise((rs, rj) => {setTimeout(rs, 1/30)});
     
-   	for (var i = 0; i < comp.rom.length; i++) {
-    	comp.rom[i] = result[i * 2] + (result[(i * 2) + 1] << 8);
+     for (var i = 0; i < comp.rom.length; i++) {
+      comp.rom[i] = result[i * 2] + (result[(i * 2) + 1] << 8);
     }
     await new Promise((rs, rj) => {setTimeout(rs, 1000)});
     running = true;
@@ -678,7 +678,7 @@ input.onchange = (e) => {
 var codeinput = document.querySelector('#code');
 
 codeinput.onkeydown = async (e) => {
-	if (e.code == 'Enter' && e.ctrlKey) {
+  if (e.code == 'Enter' && e.ctrlKey) {
     var lines = codeinput.value.split('\n');
     /*
     Split the lines by a semicolon.
@@ -689,25 +689,25 @@ codeinput.onkeydown = async (e) => {
     Replace data in the rom.
     */
     for (var i = 0; i < lines.length; i++) {
-    	lines[i] = lines[i].split(';');
+      lines[i] = lines[i].split(';');
       lines[i] = lines[i][0];
     }
     
     lines = lines.join('').split(',');
     for (var i = 0; i < lines.length; i++) {
-    	lines[i] = lines[i].trim();
+      lines[i] = lines[i].trim();
       if (isNaN(Number(lines[i]))) {
-      	alert(`'${lines[i]}' cannot be parsed as a number.`);
+        alert(`'${lines[i]}' cannot be parsed as a number.`);
         return;
       }
       
       lines[i] = Number(lines[i]);
       if (lines[i] < 0) {
-      	alert(`${lines[i]} is less than 0 (16-bit unsigned integers only).`);
+        alert(`${lines[i]} is less than 0 (16-bit unsigned integers only).`);
         return;
       }
       if (lines[i] > 0xffff) {
-      	alert(`lines[i] is greater than 65536 (16-bit unsigned integers only).`);
+        alert(`lines[i] is greater than 65536 (16-bit unsigned integers only).`);
         return;
       }
     }
@@ -716,10 +716,10 @@ codeinput.onkeydown = async (e) => {
     comp.reset();
     
     for (var i = 0; i < comp.rom.length; i++) {
-    	if (i < lines.length) {
-      	comp.rom[i] = lines[i];
+      if (i < lines.length) {
+        comp.rom[i] = lines[i];
       } else {
-      	comp.rom[i] = 0;
+        comp.rom[i] = 0;
       }
     }
     
@@ -733,16 +733,16 @@ codeinput.onkeydown = async (e) => {
 var comp;
 
 document.querySelector('#load').onclick = (e) => {
-	comp = new APU();
+  comp = new APU();
   document.querySelector('#content').style.display = 'block';
   e.target.style.display = 'none';
 }
 
 
 function getHexValues() {
-	var output = '';
+  var output = '';
   for (var i = 0; i < comp.rom.length; i++) {
-  	output += comp.rom[i].toString(16).padStart(4, '0')[2] + comp.rom[i].toString(16).padStart(4, '0')[3] + comp.rom[i].toString(16).padStart(4, '0')[0] + comp.rom[i].toString(16).padStart(4, '0')[1];
+    output += comp.rom[i].toString(16).padStart(4, '0')[2] + comp.rom[i].toString(16).padStart(4, '0')[3] + comp.rom[i].toString(16).padStart(4, '0')[0] + comp.rom[i].toString(16).padStart(4, '0')[1];
   }
   console.log(output);
 }
