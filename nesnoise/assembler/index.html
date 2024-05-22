@@ -1,0 +1,120 @@
+<template name="notes">
+const NC0 0x0010
+const NCS0 0x0011
+const ND0 0x0012
+const NDS0 0x0013
+const NE0 0x0015
+const NF0 0x0016
+const NFS0 0x0017
+const NG0 0x0018
+const NGS0 0x001a
+const NA0 0x001c
+const NAS0 0x001d
+const NB0 0x001f
+const NC1 0x0021
+const NCS1 0x0023
+const ND1 0x0025
+const NDS1 0x0027
+const NE1 0x0029
+const NF1 0x002c
+const NFS1 0x002e
+const NG1 0x0031
+const NGS1 0x0034
+const NA1 0x0037
+const NAS1 0x003a
+const NB1 0x003e
+const NC2 0x0041
+const NCS2 0x0045
+const ND2 0x0049
+const NDS2 0x004e
+const NE2 0x0052
+const NF2 0x0057
+const NFS2 0x005c
+const NG2 0x0062
+const NGS2 0x0068
+const NA2 0x006e
+const NAS2 0x0075
+const NB2 0x007b
+const NC3 0x0083
+const NCS3 0x008b
+const ND3 0x0093
+const NDS3 0x009c
+const NE3 0x00a5
+const NF3 0x00af
+const NFS3 0x00b9
+const NG3 0x00c4
+const NGS3 0x00d0
+const NA3 0x00dc
+const NAS3 0x00e9
+const NB3 0x00f7
+const NC4 0x0106
+const NCS4 0x0115
+const ND4 0x0126
+const NDS4 0x0137
+const NE4 0x014a
+const NF4 0x015d
+const NFS4 0x0172
+const NG4 0x0188
+const NGS4 0x019f
+const NA4 0x01b8
+const NAS4 0x01d2
+const NB4 0x01ee
+const NC5 0x020b
+const NCS5 0x022a
+const ND5 0x024b
+const NDS5 0x026e
+const NE5 0x0293
+const NF5 0x02ba
+const NFS5 0x02e4
+const NG5 0x0310
+const NGS5 0x033f
+const NA5 0x0370
+const NAS5 0x03a4
+const NB5 0x03dc
+const NC6 0x0417
+const NCS6 0x0455
+const ND6 0x0497
+const NDS6 0x04dd
+const NE6 0x0527
+const NF6 0x0575
+const NFS6 0x05c8
+const NG6 0x0620
+const NGS6 0x067d
+const NA6 0x06e0
+const NAS6 0x0749
+const NB6 0x07b8
+const NC7 0x082d
+const NCS7 0x08a9
+const ND7 0x092d
+const NDS7 0x09b9
+const NE7 0x0a4d
+const NF7 0x0aea
+const NFS7 0x0b90
+const NG7 0x0c40
+const NGS7 0x0cfa
+const NA7 0x0dc0
+const NAS7 0x0e91
+const NB7 0x0f6f
+</template>
+<template name="wait">
+label wait                 # Uses the F register for the number of ticks, and it will change the E register.
+ACSET REGF
+REGSET M wait2
+label wait2
+NOP
+SUB 1
+JMPNEQ 0
+UNJMP
+</template>
+<div id="buttons">
+  Useful code:
+  <br>
+  <div class="nowhitespace">
+      <input type="button" class="clicker" value="Note frequencies" name="notes"><!--
+  ---><input type="button" class="clicker" value="Wait function" name="wait">
+  </div>
+</div>
+<input type="button" id="assemble" value="Assemble and download">
+<br>
+<textarea rows="30" id="input"></textarea>
+<script src="script.js"></script>
