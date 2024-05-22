@@ -1,0 +1,8 @@
+#input {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+td:not(.blackfill) {
+  background-color: #222;
+}
