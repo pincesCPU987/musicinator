@@ -1,8 +1,7 @@
 <link rel="stylesheet" href="https://pincescpu987.github.io/musicinator/nesnoise/styles.css">
 <link rel="stylesheet" href="extrastyles.css">
 
-<template name="notes">
-const NC0 0x0010
+<template name="notes">const NC0 0x0010
 const NCS0 0x0011
 const ND0 0x0012
 const NDS0 0x0013
@@ -98,9 +97,9 @@ const NGS7 0x0cfa
 const NA7 0x0dc0
 const NAS7 0x0e91
 const NB7 0x0f6f
+
 </template>
-<template name="wait">
-label wait                 # Uses the F register for the number of ticks, and it will change the E register.
+<template name="wait">label wait                 # Uses the F register as an input for the number of ticks.
 ACSET REGF
 REGSET M wait2
 label wait2
@@ -108,6 +107,7 @@ NOP
 SUB 1
 JMPNEQ 0
 UNJMP
+
 </template>
 <div id="buttons">
   Useful code:
