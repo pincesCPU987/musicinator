@@ -1,0 +1,47 @@
+<link rel="stylesheet" href="styles.css">
+
+<body>
+  <canvas id="values"></canvas>
+  <div id="controls">
+    Song length (in frames of 60 FPS) <input type="number" id="length" value="60">
+    <br>
+    <input type="button" value="Download" id="download" onclick="downloadString()">
+    <input type="file" id="upload">
+    <br>
+    <input type="button" id="dupopener" value="Open DUPLIC8R">
+    <div id="DUPLIC8R">
+      Range:
+      <br>
+      Start: <input type="number" id="startdup" value="0">
+      <br>
+      End: <input type="number" id="enddup" value="0">
+      <br>
+      Length: <input type="number" id="lengthdup" value="0">
+      <br>
+      New location: <input type="number" id="newdup" value="0">
+      <br>
+      <br>
+      Duplic8 these?
+      <br>
+      SQA: <input type="checkbox" id="sqadup">
+      <br>
+      SQB: <input type="checkbox" id="sqbdup">
+      <br>
+      TRI: <input type="checkbox" id="tridup">
+      <br>
+      FUZ: <input type="checkbox" id="fuzdup">
+      <br>
+      <br>
+      <input type="button" id="DUPLIC8" value="DUPLIC8">
+    </div>
+    <br>
+    FPS (target 60 or above): <span id="fps"></span>
+    <br>
+    Row <span id="row"></span>
+  </div>
+  <div id="start">
+    Click to start...
+  </div>
+</body>
+
+<script src="script.js"></script>
