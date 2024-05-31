@@ -1,7 +1,3 @@
-/*
-  DO NOT touch this file without my permission! It will probably break!
-*/
-
 var values = document.querySelector('#values');
 values.width = 748;
 
@@ -11,15 +7,15 @@ var fps = 0;
 
 function drawText(ctx, text, x, y) {
   for (var a = 0; a < text.length; a++) {
-  	var letter = text[a];
+    var letter = text[a];
     var letterdata = font[letter];
     
     letterdata = letterdata.split(' ');
     
     for (var i = 0; i < letterdata.length; i++) {
-    	for (var j = 0; j < letterdata[i].length; j++) {
+      for (var j = 0; j < letterdata[i].length; j++) {
         if (letterdata[i][j] == '1') {
-        	ctx.fillRect(x + ((j + (a * 6)) * 2), y + (i * 2), 2, 2);
+          ctx.fillRect(x + ((j + (a * 6)) * 2), y + (i * 2), 2, 2);
         }
       }
     }
@@ -29,7 +25,7 @@ function drawText(ctx, text, x, y) {
 var audioCtx;
 
 async function load() {
-	const response = await fetch("https://pincescpu987.github.io/files/keyboardfont.json");
+  const response = await fetch("https://pincescpu987.github.io/files/keyboardfont.json");
   const font = await response.json();
   window.font = font;
   loaded = true;
@@ -82,8 +78,8 @@ async function load() {
   var currentvalue = 0;
   
   for (var i = 0; i < data.length; i++) {
-  	if (i % samplelength == 0) {
-    	currentvalue = Math.random();
+    if (i % samplelength == 0) {
+      currentvalue = Math.random();
     }
     data[i] = currentvalue;
   }
@@ -111,24 +107,24 @@ var currtimestamp = -1;
 var fpstimestamp = -1;
 
 function update(timestamp) {
-	if (!timestamp) {
-  	timestamp = performance.now();
+  if (!timestamp) {
+    timestamp = performance.now();
   }
   if (fpstimestamp < 0) {
-  	fpstimestamp = timestamp;
+    fpstimestamp = timestamp;
   }
   if (lasttimestamp < 0) {
-  	lasttimestamp = timestamp;
+    lasttimestamp = timestamp;
   }
   currtimestamp = timestamp;
   if (mode) {
-  	player();
+    player();
   } else {
-  	editor();
+    editor();
   }
   fps++;
   if (fpstimestamp + 1000 < timestamp) {
-  	fpstimestamp = timestamp;
+    fpstimestamp = timestamp;
     document.querySelector('#fps').innerText = fps;
     fps = 0;
   }
@@ -139,7 +135,7 @@ function update(timestamp) {
 var songdata = [];
 
 for (var i = 0; i < 60; i++) {
-	songdata.push([{note: null, vol: null}, {note: null, vol: null}, {note: null, vol: null}, {note: null, vol: null}, false]);
+  songdata.push([{note: null, vol: null}, {note: null, vol: null}, {note: null, vol: null}, {note: null, vol: null}, false]);
 }
 
 var scrolloffset = 0;
@@ -148,7 +144,7 @@ var numvalues = 16;
 values.height = (numvalues * 16) + 20;
 
 function editor() {
-	var ctx = values.getContext('2d');
+  var ctx = values.getContext('2d');
   ctx.clearRect(0, 0, values.width, values.height);
   
   
@@ -182,7 +178,7 @@ function editor() {
   drawText(ctx, 'SQA SQB TRI FUZ', 532, 20);
   
   for (var i = scrolloffset; (i < scrolloffset + numvalues) && (i < songdata.length); i++) {
-  	for (var j = 0; j < 3; j++) {
+    for (var j = 0; j < 3; j++) {
       var text = formatSongData(songdata[i][j]);
       
       drawText(ctx, text, j * 124, ((i - scrolloffset) * 16) + 20);
@@ -191,34 +187,34 @@ function editor() {
     drawText(ctx, text, 3 * 124, ((i - scrolloffset) * 16) + 20);
   }
   if (!switching && keyspressed.Space) {
-  	switching = true;
+    switching = true;
     mode = 1;
     currentnote = 0;
   } else if (!keyspressed.Space) {
-  	switching = false;
+    switching = false;
   }
 }
 
 var logged = false;
 
 function formatSongData(data) {
-	var notes = 'C C#D D#E F F#G G#A A#B '.match(/.{2}/g);
+  var notes = 'C C#D D#E F F#G G#A A#B '.match(/.{2}/g);
   
   var text;
   
   if (data.note != null) {
-  	var note = notes[data.note % 12];
+    var note = notes[data.note % 12];
     var octave = Math.floor(data.note / 12);
 
     text = note + octave;
   } else {
-  	text = '---';
+    text = '---';
   }
   
   if (data.vol != null) {
-  	text += ' 0x' + data.vol.toString(16).padStart(4, '0').toUpperCase();
+    text += ' 0x' + data.vol.toString(16).padStart(4, '0').toUpperCase();
   } else {
-  	text += ' ------';
+    text += ' ------';
   }
   return text;
 }
@@ -227,15 +223,15 @@ function formatSongData2(data) {
   var text;
   
   if (data.note != null) {
-  	text = '0x' + data.note.toString(16).padStart(4, '0').toUpperCase();
+    text = '0x' + data.note.toString(16).padStart(4, '0').toUpperCase();
   } else {
-  	text = '------';
+    text = '------';
   }
   
   if (data.vol != null) {
-  	text += ' 0x' + data.vol.toString(16).padStart(4, '0').toUpperCase();
+    text += ' 0x' + data.vol.toString(16).padStart(4, '0').toUpperCase();
   } else {
-  	text += ' ------';
+    text += ' ------';
   }
   return text;
 }
@@ -248,7 +244,7 @@ var switching = false;
 
 function player() {
   if (!keyspressed.Space) {
-  	switching = false;
+    switching = false;
   }
   if (switching) {
     currentnote = 0;
@@ -256,15 +252,15 @@ function player() {
     return;
   }
   if (currentnote == 0) {
-  	for (var i = 0; i < 3; i++) {
-    	channels[i].vol = 0;
+    for (var i = 0; i < 3; i++) {
+      channels[i].vol = 0;
       channels[i].note = 57;
     }
   }
   while (currentnote < (((currtimestamp - lasttimestamp) / 1000) * 60)) {
     songdata[currentnote][4] = true;
     for (var i = 0; i < 3; i++) {
-    	if (songdata[currentnote][i].vol != null) {
+      if (songdata[currentnote][i].vol != null) {
         channels[i].gain.gain.value = songdata[currentnote][i].vol / 0xffff;
         channels[i].vol = songdata[currentnote][i].vol;
       }
@@ -274,7 +270,7 @@ function player() {
       }
     }
     if (songdata[currentnote][3].vol != null) {
-    	channels[3].gain.gain.value = songdata[currentnote][3].vol / 0xffff;
+      channels[3].gain.gain.value = songdata[currentnote][3].vol / 0xffff;
       channels[3].vol = songdata[currentnote][3].vol;
     }
     
@@ -313,9 +309,9 @@ function player() {
     currentnote++;
     
     if (currentnote == songdata.length) {
-    	currentnote = 0;
+      currentnote = 0;
       for (var i = 0; i < songdata.length; i++) {
-      	songdata[i][4] = false;
+        songdata[i][4] = false;
       }
       lasttimestamp = currtimestamp;
     }
@@ -390,7 +386,7 @@ function player() {
   
   
   for (var i = scrolloffset; (i < scrolloffset + numvalues) && (i < songdata.length); i++) {
-  	for (var j = 0; j < 3; j++) {
+    for (var j = 0; j < 3; j++) {
       var text = formatSongData(songdata[i][j]);
       
       drawText(ctx, text, j * 124, ((i - scrolloffset) * 16) + 20);
@@ -400,7 +396,7 @@ function player() {
   }
   
   if (!switching && keyspressed.Space) {
-  	switching = true;
+    switching = true;
     mode = 0;
     channels[0].gain.gain.value = 0;
     channels[1].gain.gain.value = 0;
@@ -412,47 +408,47 @@ function player() {
 var keyspressed = {}
 
 onkeydown = (e) => {
-	keyspressed[e.code] = true;
+  keyspressed[e.code] = true;
 }
 
 onkeyup = (e) => {
-	keyspressed[e.code] = false;
+  keyspressed[e.code] = false;
 }
 
 oncontextmenu = (e) => {
-	e.preventDefault();
+  e.preventDefault();
 }
 
 onmousedown = (e) => {
-	if (!loaded) {
-  	load().catch(e => console.log(e.message));
+  if (!loaded) {
+    load().catch(e => console.log(e.message));
     loaded = true;
     document.querySelector('#start').style.display = 'none';
     values.style.display = 'block';
     document.querySelector('#controls').style.display = 'block';
   } else if (e.button == 2) {
-  	if (keyspressed.KeyV) {
-    	var channel = Math.floor(mouse.x / 124);
+    if (keyspressed.KeyV) {
+      var channel = Math.floor(mouse.x / 124);
       if (channel < 4 || (channel == 4 && mouse.x % 124 < 36)) {
-      	channel = Math.min(channel, 3);
+        channel = Math.min(channel, 3);
         var noteid = Math.floor((mouse.y - 20) / 16) + scrolloffset;
         if (songdata[noteid] && songdata[noteid][channel]) {
           songdata[noteid][channel].vol = null;
         }
       }
     } else if (keyspressed.KeyN) {
-    	var channel = Math.floor(mouse.x / 124);
+      var channel = Math.floor(mouse.x / 124);
       if (channel < 4 || (channel == 4 && mouse.x % 124 < 36)) {
-      	channel = Math.min(channel, 3);
+        channel = Math.min(channel, 3);
         var noteid = Math.floor((mouse.y - 20) / 16) + scrolloffset;
         if (songdata[noteid] && songdata[noteid][channel]) {
           songdata[noteid][channel].note = null;
         }
       }
     } else {
-    	var channel = Math.floor(mouse.x / 124);
+      var channel = Math.floor(mouse.x / 124);
       if (channel < 4 || (channel == 4 && mouse.x % 124 < 36)) {
-      	channel = Math.min(channel, 3);
+        channel = Math.min(channel, 3);
         var noteid = Math.floor((mouse.y - 20) / 16) + scrolloffset;
         if (songdata[noteid] && songdata[noteid][channel]) {
           songdata[noteid][channel].vol = null;
@@ -464,26 +460,26 @@ onmousedown = (e) => {
 }
 
 var mouse = {
-	x: 0,
+  x: 0,
   y: 0,
 }
 
 values.onmousemove = (e) => {
-	mouse.x = e.offsetX;
+  mouse.x = e.offsetX;
   mouse.y = e.offsetY;
   
   document.querySelector('#row').innerText = Math.floor((mouse.y - 20) / 16) + scrolloffset;
 }
 
 values.onwheel = (e) => {
-	e.preventDefault();
+  e.preventDefault();
   if (keyspressed.KeyV) {
-  	var channel = Math.floor(mouse.x / 124);
+    var channel = Math.floor(mouse.x / 124);
     
     if (channel < 4 || (channel == 4 && mouse.x % 124 < 36)) {
       channel = Math.min(channel, 3);
       if (e.deltaY < 0) {
-				var noteid = Math.floor((mouse.y - 20) / 16) + scrolloffset;
+        var noteid = Math.floor((mouse.y - 20) / 16) + scrolloffset;
         if (songdata[noteid] && songdata[noteid][channel] && songdata[noteid][channel].vol == null) {
           songdata[noteid][channel].vol = 0;
         }
@@ -495,14 +491,14 @@ values.onwheel = (e) => {
             songdata[noteid][channel].vol += 0x100;
             songdata[noteid][channel].vol = Math.min(0xffff, songdata[noteid][channel].vol);
           } else if (keyspressed.Digit2) {
-          	songdata[noteid][channel].vol += 0x10;
+            songdata[noteid][channel].vol += 0x10;
             songdata[noteid][channel].vol = Math.min(0xffff, songdata[noteid][channel].vol);
           } else {
-          	songdata[noteid][channel].vol += 0x1;
+            songdata[noteid][channel].vol += 0x1;
           }
         }
       } else if (e.deltaY > 0) {
-      	var noteid = Math.floor((mouse.y - 20) / 16) + scrolloffset;
+        var noteid = Math.floor((mouse.y - 20) / 16) + scrolloffset;
         if (songdata[noteid] && songdata[noteid][channel] && songdata[noteid][channel].vol > 0) {
           if (keyspressed.Digit4) {
             songdata[noteid][channel].vol -= 0x1000;
@@ -511,20 +507,20 @@ values.onwheel = (e) => {
             songdata[noteid][channel].vol -= 0x100;
             songdata[noteid][channel].vol = Math.max(0, songdata[noteid][channel].vol);
           } else if (keyspressed.Digit2) {
-          	songdata[noteid][channel].vol -= 0x10;
+            songdata[noteid][channel].vol -= 0x10;
             songdata[noteid][channel].vol = Math.max(0, songdata[noteid][channel].vol);
           } else {
-          	songdata[noteid][channel].vol -= 0x1;
+            songdata[noteid][channel].vol -= 0x1;
           }
         }
       }
     }
   } else if (keyspressed.KeyN) {
-  	var channel = Math.floor(mouse.x / 124);
+    var channel = Math.floor(mouse.x / 124);
     
     if (channel < 3) {
       if (e.deltaY < 0) {
-				var noteid = Math.floor((mouse.y - 20) / 16) + scrolloffset;
+        var noteid = Math.floor((mouse.y - 20) / 16) + scrolloffset;
         if (songdata[noteid] && songdata[noteid][channel] && songdata[noteid][channel].note == null) {
           songdata[noteid][channel].note = 0;
         }
@@ -537,7 +533,7 @@ values.onwheel = (e) => {
           }
         }
       } else if (e.deltaY > 0) {
-      	var noteid = Math.floor((mouse.y - 20) / 16) + scrolloffset;
+        var noteid = Math.floor((mouse.y - 20) / 16) + scrolloffset;
         if (songdata[noteid] && songdata[noteid][channel] && songdata[noteid][channel].note > 0) {
           if (e.shiftKey) {
             songdata[noteid][channel].note -= 12;
@@ -548,7 +544,7 @@ values.onwheel = (e) => {
         }
       }
     } else if (channel == 3 || (channel == 4 && mouse.x % 124 < 36)) {
-    	var noteid = Math.floor((mouse.y - 20) / 16) + scrolloffset;
+      var noteid = Math.floor((mouse.y - 20) / 16) + scrolloffset;
       channel = Math.min(channel, 3);
       if (e.deltaY < 0) {
         if (songdata[noteid] && songdata[noteid][channel] && songdata[noteid][channel].note == null) {
@@ -569,7 +565,7 @@ values.onwheel = (e) => {
           }
         }
       } else if (e.deltaY > 0) {
-      	var noteid = Math.floor((mouse.y - 20) / 16) + scrolloffset;
+        var noteid = Math.floor((mouse.y - 20) / 16) + scrolloffset;
         if (songdata[noteid] && songdata[noteid][channel] && songdata[noteid][channel].note > 0) {
           if (keyspressed.Digit4) {
             songdata[noteid][channel].note -= 0x1000;
@@ -587,22 +583,22 @@ values.onwheel = (e) => {
       }
     }
   } else {
-  	if (e.deltaY > 0) {
-    	if (scrolloffset < songdata.length - 1) {
-      	if (e.shiftKey) {
-        	scrolloffset += 16;
-          scrolloffset = Math.min(songdata.length, scrolloffset);
+    if (e.deltaY > 0) {
+      if (scrolloffset < songdata.length - 1) {
+        if (e.shiftKey) {
+          scrolloffset += 16;
+          scrolloffset = Math.min(songdata.length - 1, scrolloffset);
         } else {
-        	scrolloffset += 1;
+          scrolloffset += 1;
         }
       }
     } else if (e.deltaY < 0) {
-    	if (scrolloffset > 0) {
-      	if (e.shiftKey) {
-        	scrolloffset -= 16;
+      if (scrolloffset > 0) {
+        if (e.shiftKey) {
+          scrolloffset -= 16;
           scrolloffset = Math.max(0, scrolloffset);
         } else {
-        	scrolloffset -= 1;
+          scrolloffset -= 1;
         }
       }
     }
@@ -610,35 +606,35 @@ values.onwheel = (e) => {
 }
 
 document.querySelector('#length').onkeydown = (e) => {
-	if (e.code == "Enter") {
-  	var length = Number(e.target.value);
+  if (e.code == "Enter") {
+    var length = Number(e.target.value);
     
     if (length < songdata.length) {
-    	while (songdata.length > length) {
-      	songdata.splice(length, 1);
+      while (songdata.length > length) {
+        songdata.splice(length, 1);
       }
     } else {
-    	while (length > songdata.length) {
-      	songdata.push([{note: null, vol: null}, {note: null, vol: null}, {note: null, vol: null}, {note: null, vol: null}]);
+      while (length > songdata.length) {
+        songdata.push([{note: null, vol: null}, {note: null, vol: null}, {note: null, vol: null}, {note: null, vol: null}]);
       }
     }
   }
 }
 
 function getDataString() {
-	var text = '';
+  var text = '';
   
   for (var i = 0; i < songdata.length; i++) {
-  	for (var j = 0; j < 4; j++) {
-    	if (songdata[i][j].vol == null) {
-      	text += 'null';
+    for (var j = 0; j < 4; j++) {
+      if (songdata[i][j].vol == null) {
+        text += 'null';
       } else {
-      	text += songdata[i][j].vol.toString(16).padStart(4, '0');
+        text += songdata[i][j].vol.toString(16).padStart(4, '0');
       }
       if (songdata[i][j].note == null) {
-      	text += 'null';
+        text += 'null';
       } else {
-      	text += songdata[i][j].note.toString(16).padStart(4, '0');
+        text += songdata[i][j].note.toString(16).padStart(4, '0');
       }
     }
   }
@@ -650,23 +646,23 @@ function setDataString(text) {
   text = text.match(/.{32}/g);
     
   for (var i = 0; i < text.length; i++) {
-  	newdata.push([]);
+    newdata.push([]);
     text[i] = text[i].match(/.{4}/g);
     for (var j = 0; j < 8; j += 2) {
-    	newdata[i].push({vol: ((text[i][j] == 'null') ? null : Number('0x' + text[i][j])), note: ((text[i][j + 1] == 'null') ? null : Number('0x' + text[i][j + 1]))})
+      newdata[i].push({vol: ((text[i][j] == 'null') ? null : Number('0x' + text[i][j])), note: ((text[i][j + 1] == 'null') ? null : Number('0x' + text[i][j + 1]))})
     }
   }
   songdata = newdata;
 }
 
 function downloadString() {
-	var text = getDataString();
+  var text = getDataString();
   
   console.log(text);
   
   var arr = new Uint8Array(text.length);
   for (var i = 0; i < text.length; i++) {
-  	arr[i] = text[i].charCodeAt(0);
+    arr[i] = text[i].charCodeAt(0);
   }
   
   var blob = new Blob([arr], {type: 'application/octet-stream'});
@@ -683,18 +679,18 @@ function downloadString() {
 }
 
 document.querySelector('#upload').onchange = (e) => {
-	if (!e.target.files) {
-  	return;
+  if (!e.target.files) {
+    return;
   }
   var file = e.target.files[0];
   var fr = new FileReader();
   fr.onload = (e) => {
-  	var arr = new Uint8Array(fr.result);
+    var arr = new Uint8Array(fr.result);
     
     var text = '';
     
     for (var i = 0; i < arr.length; i++) {
-    	text += String.fromCharCode(arr[i]);
+      text += String.fromCharCode(arr[i]);
     }
     
     setDataString(text);
@@ -717,12 +713,12 @@ var duplic8button = document.querySelector('#DUPLIC8');
 var dupopened = false;
 
 dupopener.onclick = (e) => {
-	dupopened = !dupopened;
+  dupopened = !dupopened;
   if (dupopened) {
-  	duplic8r.style.display = 'block';
+    duplic8r.style.display = 'block';
     dupopener.value = 'Close DUPLIC8R';
   } else {
-  	duplic8r.style.display = 'none';
+    duplic8r.style.display = 'none';
     dupopener.value = 'Open DUPLIC8R';
   }
 }
@@ -737,29 +733,29 @@ lengthdup.oninput = (e) => {
   enddup.value = Number(startdup.value) + Number(lengthdup.value);
 }
 duplic8button.onclick = (e) => {
-	for (var i = 0; i < Number(lengthdup.value); i++) {
-  	var data = songdata[i];
+  for (var i = 0; i < Number(lengthdup.value); i++) {
+    var data = songdata[i];
     
     if (!data) {
-    	data = [{note: null, vol: null}, {note: null, vol: null}, {note: null, vol: null}, {note: null, vol: null}, false];
+      data = [{note: null, vol: null}, {note: null, vol: null}, {note: null, vol: null}, {note: null, vol: null}, false];
     }
     while (!songdata[i + Number(newdup.value)]) {
-    	songdata.push([{note: null, vol: null}, {note: null, vol: null}, {note: null, vol: null}, {note: null, vol: null}, false]);
+      songdata.push([{note: null, vol: null}, {note: null, vol: null}, {note: null, vol: null}, {note: null, vol: null}, false]);
     }
     if (sqadup.checked) {
-    	songdata[i + Number(newdup.value)][0].vol = data[0].vol;
+      songdata[i + Number(newdup.value)][0].vol = data[0].vol;
       songdata[i + Number(newdup.value)][0].note = data[0].note;
     }
     if (sqbdup.checked) {
-    	songdata[i + Number(newdup.value)][1].vol = data[1].vol;
+      songdata[i + Number(newdup.value)][1].vol = data[1].vol;
       songdata[i + Number(newdup.value)][1].note = data[1].note;
     }
     if (tridup.checked) {
-    	songdata[i + Number(newdup.value)][2].vol = data[2].vol;
+      songdata[i + Number(newdup.value)][2].vol = data[2].vol;
       songdata[i + Number(newdup.value)][2].note = data[2].note;
     }
     if (fuzdup.checked) {
-    	songdata[i + Number(newdup.value)][3].vol = data[3].vol;
+      songdata[i + Number(newdup.value)][3].vol = data[3].vol;
       songdata[i + Number(newdup.value)][3].note = data[3].note;
     }
   }
