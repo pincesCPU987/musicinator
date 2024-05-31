@@ -1,0 +1,20 @@
+/*
+  DO NOT touch this file without my permission! It will probably break!
+*/
+
+body {
+  background-color: black;
+  color: white;
+}
+
+#values {
+  display: none;
+}
+
+#controls {
+  display: none;
+}
+
+#DUPLIC8R {
+  display: none;
+}
